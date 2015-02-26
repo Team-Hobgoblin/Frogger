@@ -1,8 +1,9 @@
 ﻿/*
-1. Include libraries (System, System.Collections.Generic...)
-2. Create the main struct for the objects (struct Object...)
+1. Include libraries (System, System.Collections.Generic...) DONE
+2. Create the main struct for the objects (struct Object...) DONE
 3. Start class FroggerGame and add main constants (HEIGHT, WIDTH, LIFES...)
-4. Create methods PrintObject(int x, int y, char c, int length, ConsoleColor color) and PrintText(int x, int y, string str, ConsoleColor color = ConsoleColor.Gray)
+4. Create methods PrintObject(int x, int y, char c, int length, ConsoleColor color) and 
+ * PrintText(int x, int y, string str, ConsoleColor color = ConsoleColor.Gray) DONE
 5. Display Welcome Screen Method - DisplayWelcomeMessage()
 6. Main Variables - lives, speed, symbols, colors...
 7. Initialization Method(s) - CreateObject(params[]) or (CreateFrog(params[]) and CreateCar(params[]))
@@ -27,7 +28,7 @@ using System.Collections.Generic;
 class FroggerGame
 {
 
-    struct Car
+    class Car
     {
         public int x;
         public int y;
@@ -35,6 +36,12 @@ class FroggerGame
         public int direction;
         public char bodySymbol;
         public ConsoleColor color;
+
+
+        public void MoveCar()
+        {
+            this.x += this.direction;
+        }
     }
 
     struct Frog
@@ -47,8 +54,8 @@ class FroggerGame
 
     static Random randomGenerator = new Random();
 
-    static int gameWidth = 70;
-    static int gameHeight = 30;
+    static int gameWidth = 40;
+    static int gameHeight = 15;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -68,7 +75,6 @@ class FroggerGame
 
         while (true)
         {
-
             //Move enemy Cars 
             MoveEnemyCars();
 
@@ -100,14 +106,21 @@ class FroggerGame
                     'X',
                     ConsoleColor.Red);
             }
-
+            PrintingString(41, 4, "Lives: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
             Thread.Sleep(gameSpeed);
 
             collisionFlag = false;
+
         }
     }
 
+    static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
+    {
+        Console.SetCursorPosition(x, y);
+        Console.ForegroundColor = color;
+        Console.Write(str);
+    }
     static void initializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
@@ -184,21 +197,9 @@ class FroggerGame
 
     static void MoveEnemyCars()
     {
-        List<Car> newCars = new List<Car>();
         for (int i = 0; i < cars.Count; i++)
         {
-            Car oldCar = cars[i];
-            Car currentCar = new Car();
-
-            // we move the car from here
-            currentCar.y = oldCar.y;
-            currentCar.x = oldCar.x + oldCar.direction;
-
-
-            currentCar.width = oldCar.width;
-            currentCar.direction = oldCar.direction;
-            currentCar.bodySymbol = oldCar.bodySymbol;
-            currentCar.color = oldCar.color;
+            cars[i].MoveCar();
 
 
             //maybe Colision detection has to be solved something like the lines below???
@@ -208,7 +209,8 @@ class FroggerGame
             //}
 
             //check for Colision 
-            if (currentCar.x == mrFrog.x && currentCar.y == mrFrog.y)
+
+            if (cars[i].x == mrFrog.x && cars[i].y == mrFrog.y)
             {
                 //set that we have been hit 
                 collisionFlag = true;
@@ -216,19 +218,25 @@ class FroggerGame
                 if (mrFrogLives != 0)
                 {
                     mrFrogLives--;
+                    //hit = true;
                 }
                 else
                 {
                     //GOTO : Activate gameOver !
                 }
             }
-
-            if (currentCar.x < gameWidth)
+            if (collisionFlag)
             {
-                newCars.Add(currentCar);
+                Console.Beep();
+                initializeMrFrog();
+                //Printing(dwarf.posX, dwarf.posY, "X", ConsoleColor.Red);
+            }
+            if (cars[i].x >= gameWidth-5 || cars[i].x<=5)
+            {
+                cars.Remove(cars[i]);
+                --i;
             }
         }
-        cars = newCars;
         //Rly i have no clue why I have to create a new list
         //then create a oldCar and currentCar and set currentCar variables to oldCar
         //and then add it to the new LIST 
@@ -253,10 +261,7 @@ class FroggerGame
     {
         Console.CursorVisible = false;
 
-        Console.WindowWidth = gameWidth;
+        Console.WindowWidth = gameWidth + 15;
         Console.WindowHeight = gameHeight;
-
-        Console.BufferWidth = gameWidth;
-        Console.BufferHeight = gameHeight;
     }
 }
