@@ -47,6 +47,7 @@ class FroggerGame
     static int gameWidth = 40;
     static int gameHeight = 25;
     static int gameSpeed = 300;
+    static int gameLevel = 1;
 
     static Frog mrFrog = new Frog();
     static int mrFrogLives = 3; // because F(frog) is the 6th letter in Engl
@@ -94,6 +95,8 @@ class FroggerGame
             // slow down the program - so we can see what is happening 
             PrintingString(41, 6, "Score: " + gameScore);
 
+            PrintingString(41, 8, "Level: " + gameLevel);
+
             Thread.Sleep(gameSpeed);
 
 
@@ -104,9 +107,9 @@ class FroggerGame
 
     static void LevelUp()
     {
+
         if (mrFrog.y == 3)
         {
-            
             gameSpeed -= 50;
             if (gameSpeed < 100)
             {
@@ -114,6 +117,8 @@ class FroggerGame
             }
             cars.Clear();
             initializeMrFrog();
+            gameLevel++;
+
         }
 
     }
@@ -305,26 +310,23 @@ class FroggerGame
 
         }
 
-
     }
 
     public static void GameOver()
     {
-        string[] gameOver = new string[]
-            {
-            @"   _________    _____   ____     _______  __ ___________ ",
-            @"  / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \",
-            @" / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/",
-            @" \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|   ",
-            @"/_____/     \/      \/     \/                   \/       "
-            };
+        //string[] gameOver = new string[]
+        //    {
+        //    @"   _________    _____   ____     _______  __ ___________ ",
+        //    @"  / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \",
+        //    @" / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/",
+        //    @" \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|   ",
+        //    @"/_____/     \/      \/     \/                   \/       "
+        //    };
 
-        Console.Clear();
-        PrintStringArray(gameOver);
+        //Console.Clear();
+        //PrintStringArray(gameOver);
 
         string fileName = @"..\..\frogGameOver.txt";
-
-
         StreamReader streamReader = new StreamReader(fileName);
 
         using (streamReader)
