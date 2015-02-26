@@ -55,8 +55,6 @@ class FroggerGame
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
 
-
-
     static void Main()
     {
         SetGameDimensions();
@@ -65,8 +63,6 @@ class FroggerGame
         initializeMrFrog();
 
             Menu();
-            
-            
     }
     public static void NewGame()
     {
@@ -152,24 +148,47 @@ class FroggerGame
                             Console.Clear();
                             Rules();
                         }
-                        else
-                        { Console.WriteLine(); }
+                        else { Main(); }
                     }
+                    else { Main(); }
                 }
             }
+            else  {   Main(); }
         }
     }
 
     static void Rules()
     {
+        Console.Clear();
         Console.WriteLine(@"
  
 Hey, this is Fogger.
 You are the little smile at the bottom of the screen.
 You shoud redirect the frog(smile) to his home.
 But you shoud be prepared for all the cars crossing the road.
-You can move in all directions:
+You can move in all directions.
+
         ");
+        Console.WriteLine("\tPress N for new game\n\n\tPress M for Main Manu");
+        ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.N)
+        {
+            NewGame();
+        }
+        else
+        {
+            if (key.Key == ConsoleKey.M)
+            {
+                Console.Clear();
+                Menu();
+            }
+            else
+            {
+                Rules();
+            }
+        }
+
+        
     }
 
     static void LevelUp()
