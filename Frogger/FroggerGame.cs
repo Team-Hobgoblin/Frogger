@@ -45,7 +45,7 @@ class FroggerGame
     static int gameScore = 0;
     static int gameCurrentLevel = 0;
     static int gameWidth = 40;
-    static int gameHeight = 35;
+    static int gameHeight = 20;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -90,7 +90,7 @@ class FroggerGame
             //
             Lives();
 
-            PrintingString(41, 4, "Lives: " + mrFrogLives);
+            PrintingString(41, 4, "Lives left: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
             PrintingString(41, 6, "Score: " + gameScore);
 
