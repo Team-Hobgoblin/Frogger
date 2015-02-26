@@ -108,18 +108,9 @@ class FroggerGame
         }
     }
 
-    static void ScoreUpgrade()
-    {
-
-        if (true)
-        {
-            
-        }
-
-    }
     static void LevelUp()
     {
-        if (mrFrog.y == 0)
+        if (mrFrog.y == 3)
         {
             
             gameSpeed -= 50;
@@ -199,7 +190,7 @@ class FroggerGame
 
         //Sidewalks are lanes that there are no cars
         //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
-        newEnemyCar.y = randomGenerator.Next(1, gameHeight - 2);
+        newEnemyCar.y = randomGenerator.Next(3, gameHeight - 4);
         if (newEnemyCar.y % 2 == 1)
         {
             newEnemyCar.x = 5;
@@ -295,7 +286,7 @@ class FroggerGame
         Console.CursorVisible = false;
 
         Console.WindowWidth = gameWidth + 15;
-        Console.WindowHeight = gameHeight;
+        Console.WindowHeight = gameHeight + 4;
         Console.BufferHeight = Console.WindowHeight;
         Console.BufferWidth = Console.WindowWidth;
     }
