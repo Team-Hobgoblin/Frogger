@@ -1,8 +1,9 @@
 ﻿/*
-1. Include libraries (System, System.Collections.Generic...)
-2. Create the main struct for the objects (struct Object...)
+1. Include libraries (System, System.Collections.Generic...) DONE
+2. Create the main struct for the objects (struct Object...) DONE
 3. Start class FroggerGame and add main constants (HEIGHT, WIDTH, LIFES...)
-4. Create methods PrintObject(int x, int y, char c, int length, ConsoleColor color) and PrintText(int x, int y, string str, ConsoleColor color = ConsoleColor.Gray)
+4. Create methods PrintObject(int x, int y, char c, int length, ConsoleColor color) and 
+ * PrintText(int x, int y, string str, ConsoleColor color = ConsoleColor.Gray) DONE
 5. Display Welcome Screen Method - DisplayWelcomeMessage()
 6. Main Variables - lives, speed, symbols, colors...
 7. Initialization Method(s) - CreateObject(params[]) or (CreateFrog(params[]) and CreateCar(params[]))
@@ -19,23 +20,17 @@
 
 using System;
 using System.Linq;
+using System.IO;
 using System.Activities;
 using System.Activities.Statements;
 using System.Threading;
 using System.Collections.Generic;
+using Frogger;
 
 class FroggerGame
 {
 
-    struct Car
-    {
-        public int x;
-        public int y;
-        public int width;
-        public int direction;
-        public char bodySymbol;
-        public ConsoleColor color;
-    }
+
 
     struct Frog
     {
@@ -47,12 +42,15 @@ class FroggerGame
 
     static Random randomGenerator = new Random();
 
-    static int gameWidth = 70;
-    static int gameHeight = 30;
+    static int gameScore = 0;
+    static int gameCurrentLevel = 0;
+    static int gameWidth = 40;
+    static int gameHeight = 25;
     static int gameSpeed = 300;
+    static int gameLevel = 1;
 
     static Frog mrFrog = new Frog();
-    static int mrFrogLives = 1; // because F(frog) is the 6th letter in Engl
+    static int mrFrogLives = 3; // because F(frog) is the 6th letter in Engl
 
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
@@ -68,6 +66,10 @@ class FroggerGame
 
         while (true)
         {
+
+            //SelectionMenu();
+            //Menu();
+            //We shoud choose a menu and make a class or method for entire new game
 
             //Move enemy Cars 
             MoveEnemyCars();
@@ -92,27 +94,133 @@ class FroggerGame
             // we will not have a collision !!!! only if we hit its first ->>> the element with index 0 (the most left)
             //this can be solved by List.Contains
             //
-            if (collisionFlag)
-            {
-                //display X /colision/
-                PrintAtPosition(mrFrog.x,
-                    mrFrog.y,
-                    'X',
-                    ConsoleColor.Red);
-            }
+            Lives();
 
+            PrintingString(41, 4, "Lives left: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
+            PrintingString(41, 6, "Score: " + gameScore);
+
+            PrintingString(41, 8, "Level: " + gameLevel);
+
             Thread.Sleep(gameSpeed);
 
+
             collisionFlag = false;
+
         }
     }
+    //static void SelectionMenu()
+    //{
+        
 
+    //    PrintingString(12, 6, "This is FROGGER");
+    //    PrintingString(10, 8, "Press N for New game");
+    //    PrintingString(10, 10, "Pres S for Scores");
+    //    PrintingString(10, 12, "Press R for Rules ");
+    //    ConsoleKeyInfo key = Console.ReadKey();
+
+    //    switch (key.Key)
+    //    {
+    //        case ConsoleKey.N: Console.WriteLine("new game"); break;
+    //        case ConsoleKey.S: Console.WriteLine("Scores"); break;
+    //        case ConsoleKey.R: Console.WriteLine("Rules"); break;
+    //        default: Console.WriteLine("new game");
+    //            break;
+    //    }
+    //    Console.Clear()
+    
+    //}
+    //static void Menu()
+    //{
+    //    PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
+    //    PrintingString(10, 8, "Scores");
+    //    PrintingString(10, 10, "Game Rules");
+
+    //    Console.CursorVisible = false;
+    //    ConsoleKeyInfo key = Console.ReadKey();
+
+    //    if (key.Key == ConsoleKey.Enter)
+    //    {  //start game
+    //        Console.Clear();
+    //        Console.WriteLine("\nNew game shoud be started here\n");
+    //    }
+    //    else
+    //    {
+    //        if (key.Key == ConsoleKey.DownArrow)
+    //        {
+    //            PrintingString(10, 6, "New Game", ConsoleColor.White);
+    //            PrintingString(10, 8, "Scores", ConsoleColor.Yellow);
+    //            PrintingString(10, 10, "Game Rules", ConsoleColor.White);
+    //            Console.SetCursorPosition(10, 8);
+    //            key = Console.ReadKey();
+    //            if (key.Key == ConsoleKey.Enter)
+    //            {
+    //                Console.Clear();
+    //                Console.WriteLine("Scores written by txt. file\n");
+    //            }
+    //            else
+    //            {
+    //                if (key.Key == ConsoleKey.DownArrow)
+    //                {
+    //                    PrintingString(10, 6, "New Game", ConsoleColor.White);
+    //                    PrintingString(10, 8, "Scores", ConsoleColor.White);
+    //                    PrintingString(10, 10, "Game Rules", ConsoleColor.Yellow);
+
+    //                    Console.WriteLine();
+    //                    key = Console.ReadKey();
+    //                    if (key.Key == ConsoleKey.Enter)
+    //                    {
+    //                        Console.Clear();
+    //                        Console.WriteLine("Rules........\n");
+    //                    }
+    //                    else
+    //                    { Console.WriteLine(); }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    static void Rules()
+    {
+        Console.WriteLine(@"
+ 
+Hey, this is Fogger.
+You are the little smile at the bottom of the screen.
+You shoud redirect the frog(smile) to his home.
+But you shoud be prepared for all the cars crossing the road.
+You can move in all directions:
+        ");
+    }
+    static void LevelUp()
+    {
+
+        if (mrFrog.y == 3)
+        {
+            gameSpeed -= 50;
+            if (gameSpeed < 100)
+            {
+                gameSpeed = 100;
+            }
+            cars.Clear();
+            initializeMrFrog();
+            gameLevel++;
+
+        }
+
+    }
+
+    static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
+    {
+        Console.SetCursorPosition(x, y);
+        Console.ForegroundColor = color;
+        Console.Write(str);
+    }
     static void initializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
         mrFrog.y = gameHeight - 1;
-        mrFrog.bodySymbol = '@';
+        mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
 
@@ -123,6 +231,7 @@ class FroggerGame
         {
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);//save the pressed key
             while (Console.KeyAvailable) Console.ReadKey(true);// we remove buffer keys from before
+
             if (pressedKey.Key == ConsoleKey.LeftArrow)//move Left >>>
             {
                 if (mrFrog.x != 0)//so we dont get out of the bounderies of our gameScreen
@@ -136,14 +245,25 @@ class FroggerGame
             if (pressedKey.Key == ConsoleKey.UpArrow)//move Up ^^^
             {
                 if (mrFrog.y != 0)
+                {
                     mrFrog.y--;
+                    gameScore++;
+                }
+                    
             }
-            if (pressedKey.Key == ConsoleKey.DownArrow)//move Right vvv
+            if (pressedKey.Key == ConsoleKey.DownArrow)//move Down vvv
             {
                 if (mrFrog.y < gameHeight - 1)
+                {
                     mrFrog.y++;
+                    gameScore--;
+                }
+                    
+                
             }
+
         }
+        LevelUp();
 
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
@@ -164,15 +284,15 @@ class FroggerGame
         }
         //Sidewalks are lanes that there are no cars
         //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
-        newEnemyCar.y = randomGenerator.Next(1, gameHeight - 2);
+        newEnemyCar.y = randomGenerator.Next(3, gameHeight - 4);
         if (newEnemyCar.y % 2 == 1)
         {
-            newEnemyCar.x = 0;
+            newEnemyCar.x = 5;
             newEnemyCar.direction = 1;
         }
-        else if (newEnemyCar.y % 2 == 0)
+        else //if (newEnemyCar.y % 2 == 0)
         {
-            newEnemyCar.x = gameWidth - 1;
+            newEnemyCar.x = gameWidth - 6;
             newEnemyCar.direction = -1;
         }
         newEnemyCar.width = randomGenerator.Next(1, 5);
@@ -190,23 +310,45 @@ class FroggerGame
         }
     }
 
-    static void MoveEnemyCars()
+    static void Lives()
     {
-        List<Car> newCars = new List<Car>();
+
         for (int i = 0; i < cars.Count; i++)
         {
-            Car oldCar = cars[i];
-            Car currentCar = new Car();
+            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
+            {
+                //set that we have been hit 
+                collisionFlag = true;
+                //remove 1 live from total
+                if (mrFrogLives != 0)
+                {
+                    mrFrogLives--;
+                    //hit = true;
+                    PrintAtPosition(mrFrog.x,
+                    mrFrog.y,
+                    'X',
+                  ConsoleColor.Red);
+                }
+                else
+                {
+                    GameOver();
+                }
+            }
+            if (collisionFlag)
+            {
 
-            // we move the car from here
-            currentCar.y = oldCar.y;
-            currentCar.x = oldCar.x + oldCar.direction;
+                Console.Beep();
+                initializeMrFrog();
+                //Printing(dwarf.posX, dwarf.posY, "X", ConsoleColor.Red);
+            }
+        }
+    }
 
-
-            currentCar.width = oldCar.width;
-            currentCar.direction = oldCar.direction;
-            currentCar.bodySymbol = oldCar.bodySymbol;
-            currentCar.color = oldCar.color;
+    static void MoveEnemyCars()
+    {
+        for (int i = 0; i < cars.Count; i++)
+        {
+            cars[i].MoveCar();
 
 
             //maybe Colision detection has to be solved something like the lines below???
@@ -216,27 +358,14 @@ class FroggerGame
             //}
 
             //check for Colision 
-            if (currentCar.x == mrFrog.x && currentCar.y == mrFrog.y)
-            {
-                //set that we have been hit 
-                collisionFlag = true;
-                //remove 1 live from total
-                if (mrFrogLives != 0)
-                {
-                    mrFrogLives--;
-                }
-                else
-                {
-                    //GOTO : Activate gameOver !
-                }
-            }
 
-            if (currentCar.x < gameWidth)
+           
+            if (cars[i].x >= gameWidth - 5 || cars[i].x <= 5)
             {
-                newCars.Add(currentCar);
+                cars.Remove(cars[i]);
+                --i;
             }
         }
-        cars = newCars;
         //Rly i have no clue why I have to create a new list
         //then create a oldCar and currentCar and set currentCar variables to oldCar
         //and then add it to the new LIST 
@@ -261,10 +390,50 @@ class FroggerGame
     {
         Console.CursorVisible = false;
 
-        Console.WindowWidth = gameWidth;
-        Console.WindowHeight = gameHeight;
-
-        Console.BufferWidth = gameWidth;
-        Console.BufferHeight = gameHeight;
+        Console.WindowWidth = gameWidth + 15;
+        Console.WindowHeight = gameHeight + 2;
+        Console.BufferHeight = Console.WindowHeight;
+        Console.BufferWidth = Console.WindowWidth;
     }
+
+    static void PrintStringArray(string[] newString)
+    {
+        foreach (var text in newString)
+        {
+            int whiteSpaces = (text.Length) / 2;
+            Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
+
+        }
+
+    }
+
+    public static void GameOver()
+    {
+        //string[] gameOver = new string[]
+        //    {
+        //    @"   _________    _____   ____     _______  __ ___________ ",
+        //    @"  / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \",
+        //    @" / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/",
+        //    @" \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|   ",
+        //    @"/_____/     \/      \/     \/                   \/       "
+        //    };
+
+        //Console.Clear();
+        //PrintStringArray(gameOver);
+
+        string fileName = @"..\..\frogGameOver.txt";
+        StreamReader streamReader = new StreamReader(fileName);
+
+        using (streamReader)
+        {
+            string fileContents = streamReader.ReadToEnd();
+            Console.WriteLine(fileContents);
+        }
+        Console.ReadKey(true);
+
+
+
+    }
+
+
 }
