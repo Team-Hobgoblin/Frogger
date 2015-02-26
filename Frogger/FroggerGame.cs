@@ -29,7 +29,7 @@ using Frogger;
 class FroggerGame
 {
 
-    
+
 
     struct Frog
     {
@@ -102,13 +102,27 @@ class FroggerGame
 
             Thread.Sleep(gameSpeed);
 
-            
+
             collisionFlag = false;
 
         }
     }
 
+    static void LevelUp()
+    {
+        if (mrFrog.y == 0)
+        {
+            
+            gameSpeed -= 50;
+            if (gameSpeed < 100)
+            {
+                gameSpeed = 100;
+            }
+            cars.Clear();
+            initializeMrFrog();
+        }
 
+    }
 
     static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
     {
@@ -151,8 +165,9 @@ class FroggerGame
                 if (mrFrog.y < gameHeight - 1)
                     mrFrog.y++;
             }
-        }
 
+        }
+        LevelUp();
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
@@ -205,7 +220,7 @@ class FroggerGame
 
             //check for Colision 
 
-            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x+cars[i].width) && cars[i].y == mrFrog.y)
+            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
             {
                 //set that we have been hit 
                 collisionFlag = true;
@@ -225,7 +240,7 @@ class FroggerGame
                 Console.Beep();
                 initializeMrFrog();
             }
-            if (cars[i].x >= gameWidth-5 || cars[i].x<=5)
+            if (cars[i].x >= gameWidth - 5 || cars[i].x <= 5)
             {
                 cars.Remove(cars[i]);
                 --i;
@@ -267,7 +282,7 @@ class FroggerGame
         {
             int whiteSpaces = (text.Length) / 2;
             Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
-            
+
         }
 
 
@@ -288,8 +303,8 @@ class FroggerGame
         PrintStringArray(gameOver);
         Console.WriteLine("\n\n\n");
         Console.ReadKey(true);
-       
-        
+
+
     }
 
 
