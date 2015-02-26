@@ -52,7 +52,7 @@ class FroggerGame
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
-    static int mrFrogLives = 6; // because F(frog) is the 6th letter in Engl
+    static int mrFrogLives = 1; // because F(frog) is the 6th letter in Engl
 
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
@@ -133,7 +133,7 @@ class FroggerGame
                 if (mrFrog.x < gameWidth - 1)
                     mrFrog.x++;
             }
-            if (pressedKey.Key == ConsoleKey.UpArrow)//move Right ^^^
+            if (pressedKey.Key == ConsoleKey.UpArrow)//move Up ^^^
             {
                 if (mrFrog.y != 0)
                     mrFrog.y--;
@@ -152,12 +152,21 @@ class FroggerGame
     static void CreateEnemies()
     {
         Car newEnemyCar = new Car();
-        newEnemyCar.x = 0;
+
 
         //Sidewalks are lanes that there are no cars
         //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
         newEnemyCar.y = randomGenerator.Next(1, gameHeight - 2);
-        newEnemyCar.direction = randomGenerator.Next(0, 2);
+        if (newEnemyCar.y % 2 == 1)
+        {
+            newEnemyCar.x = 0;
+            newEnemyCar.direction = 1;
+        }
+        else if (newEnemyCar.y % 2 == 0)
+        {
+            newEnemyCar.x = gameWidth - 1;
+            newEnemyCar.direction = -1;
+        }
         newEnemyCar.width = randomGenerator.Next(1, 5);
         newEnemyCar.color = ConsoleColor.Yellow;
         newEnemyCar.bodySymbol = '=';
@@ -180,9 +189,10 @@ class FroggerGame
         {
             Car oldCar = cars[i];
             Car currentCar = new Car();
-            currentCar.x = oldCar.x + 1; // we move the car from here
-            currentCar.y = oldCar.y;
 
+            // we move the car from here
+            currentCar.y = oldCar.y;
+            currentCar.x = oldCar.x + oldCar.direction;
 
 
             currentCar.width = oldCar.width;
