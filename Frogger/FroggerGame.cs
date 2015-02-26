@@ -229,7 +229,6 @@ class FroggerGame
             {
                 Console.Beep();
                 initializeMrFrog();
-                //Printing(dwarf.posX, dwarf.posY, "X", ConsoleColor.Red);
             }
             if (cars[i].x >= gameWidth-5 || cars[i].x<=5)
             {
