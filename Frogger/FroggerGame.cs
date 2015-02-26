@@ -55,7 +55,7 @@ class FroggerGame
     static Random randomGenerator = new Random();
 
     static int gameWidth = 40;
-    static int gameHeight = 15;
+    static int gameHeight = 25;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -264,6 +264,8 @@ class FroggerGame
 
         Console.WindowWidth = gameWidth + 15;
         Console.WindowHeight = gameHeight;
+        Console.BufferHeight = Console.WindowHeight;
+        Console.BufferWidth = Console.WindowWidth;
     }
 
     static void PrintStringArray(string[] newString)
