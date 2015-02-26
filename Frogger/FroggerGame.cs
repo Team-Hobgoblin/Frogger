@@ -45,7 +45,7 @@ class FroggerGame
     static int gameScore = 0;
     static int gameCurrentLevel = 0;
     static int gameWidth = 40;
-    static int gameHeight = 20;
+    static int gameHeight = 25;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -291,7 +291,7 @@ class FroggerGame
         Console.CursorVisible = false;
 
         Console.WindowWidth = gameWidth + 15;
-        Console.WindowHeight = gameHeight + 4;
+        Console.WindowHeight = gameHeight + 2;
         Console.BufferHeight = Console.WindowHeight;
         Console.BufferWidth = Console.WindowWidth;
     }
