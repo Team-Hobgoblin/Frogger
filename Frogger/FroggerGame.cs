@@ -210,7 +210,7 @@ class FroggerGame
 
             //check for Colision 
 
-            if (cars[i].x == mrFrog.x && cars[i].y == mrFrog.y)
+            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x+cars[i].width) && cars[i].y == mrFrog.y)
             {
                 //set that we have been hit 
                 collisionFlag = true;
