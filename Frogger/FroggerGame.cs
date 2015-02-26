@@ -66,6 +66,11 @@ class FroggerGame
 
         while (true)
         {
+
+            //SelectionMenu();
+            //Menu();
+            //We shoud choose a menu and make a class or method for entire new game
+
             //Move enemy Cars 
             MoveEnemyCars();
 
@@ -104,7 +109,89 @@ class FroggerGame
 
         }
     }
+    //static void SelectionMenu()
+    //{
+        
 
+    //    PrintingString(12, 6, "This is FROGGER");
+    //    PrintingString(10, 8, "Press N for New game");
+    //    PrintingString(10, 10, "Pres S for Scores");
+    //    PrintingString(10, 12, "Press R for Rules ");
+    //    ConsoleKeyInfo key = Console.ReadKey();
+
+    //    switch (key.Key)
+    //    {
+    //        case ConsoleKey.N: Console.WriteLine("new game"); break;
+    //        case ConsoleKey.S: Console.WriteLine("Scores"); break;
+    //        case ConsoleKey.R: Console.WriteLine("Rules"); break;
+    //        default: Console.WriteLine("new game");
+    //            break;
+    //    }
+    //    Console.Clear()
+    
+    //}
+    //static void Menu()
+    //{
+    //    PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
+    //    PrintingString(10, 8, "Scores");
+    //    PrintingString(10, 10, "Game Rules");
+
+    //    Console.CursorVisible = false;
+    //    ConsoleKeyInfo key = Console.ReadKey();
+
+    //    if (key.Key == ConsoleKey.Enter)
+    //    {  //start game
+    //        Console.Clear();
+    //        Console.WriteLine("\nNew game shoud be started here\n");
+    //    }
+    //    else
+    //    {
+    //        if (key.Key == ConsoleKey.DownArrow)
+    //        {
+    //            PrintingString(10, 6, "New Game", ConsoleColor.White);
+    //            PrintingString(10, 8, "Scores", ConsoleColor.Yellow);
+    //            PrintingString(10, 10, "Game Rules", ConsoleColor.White);
+    //            Console.SetCursorPosition(10, 8);
+    //            key = Console.ReadKey();
+    //            if (key.Key == ConsoleKey.Enter)
+    //            {
+    //                Console.Clear();
+    //                Console.WriteLine("Scores written by txt. file\n");
+    //            }
+    //            else
+    //            {
+    //                if (key.Key == ConsoleKey.DownArrow)
+    //                {
+    //                    PrintingString(10, 6, "New Game", ConsoleColor.White);
+    //                    PrintingString(10, 8, "Scores", ConsoleColor.White);
+    //                    PrintingString(10, 10, "Game Rules", ConsoleColor.Yellow);
+
+    //                    Console.WriteLine();
+    //                    key = Console.ReadKey();
+    //                    if (key.Key == ConsoleKey.Enter)
+    //                    {
+    //                        Console.Clear();
+    //                        Console.WriteLine("Rules........\n");
+    //                    }
+    //                    else
+    //                    { Console.WriteLine(); }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    static void Rules()
+    {
+        Console.WriteLine(@"
+ 
+Hey, this is Fogger.
+You are the little smile at the bottom of the screen.
+You shoud redirect the frog(smile) to his home.
+But you shoud be prepared for all the cars crossing the road.
+You can move in all directions:
+        ");
+    }
     static void LevelUp()
     {
 
