@@ -48,7 +48,7 @@ class FroggerGame
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
-    static int mrFrogLives = 1; // because F(frog) is the 6th letter in Engl
+    static int mrFrogLives = 3; // because F(frog) is the 6th letter in Engl
 
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
@@ -108,6 +108,15 @@ class FroggerGame
         }
     }
 
+    static void ScoreUpgrade()
+    {
+
+        if (true)
+        {
+            
+        }
+
+    }
     static void LevelUp()
     {
         if (mrFrog.y == 0)
@@ -145,6 +154,7 @@ class FroggerGame
         {
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);//save the pressed key
             while (Console.KeyAvailable) Console.ReadKey(true);// we remove buffer keys from before
+
             if (pressedKey.Key == ConsoleKey.LeftArrow)//move Left >>>
             {
                 if (mrFrog.x != 0)//so we dont get out of the bounderies of our gameScreen
@@ -158,16 +168,26 @@ class FroggerGame
             if (pressedKey.Key == ConsoleKey.UpArrow)//move Up ^^^
             {
                 if (mrFrog.y != 0)
+                {
                     mrFrog.y--;
+                    gameScore++;
+                }
+                    
             }
-            if (pressedKey.Key == ConsoleKey.DownArrow)//move Right vvv
+            if (pressedKey.Key == ConsoleKey.DownArrow)//move Down vvv
             {
                 if (mrFrog.y < gameHeight - 1)
+                {
                     mrFrog.y++;
+                    gameScore--;
+                }
+                    
+                
             }
 
         }
         LevelUp();
+
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
@@ -224,6 +244,10 @@ class FroggerGame
             {
                 //set that we have been hit 
                 collisionFlag = true;
+                if (gameScore % 40 == 0)
+                {
+                    mrFrogLives++;
+                }
                 //remove 1 live from total
                 if (mrFrogLives != 0)
                 {
