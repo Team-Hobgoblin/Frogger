@@ -12,7 +12,6 @@ namespace Frogger
         public char bodySymbol;
         public ConsoleColor color;
 
-
         public void MoveCar()
         {
             this.x += this.direction;

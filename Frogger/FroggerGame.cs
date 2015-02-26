@@ -29,9 +29,6 @@ using Frogger;
 
 class FroggerGame
 {
-
-
-
     struct Frog
     {
         public int x;
@@ -55,8 +52,6 @@ class FroggerGame
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
 
-
-
     static void Main()
     {
         SetGameDimensions();
@@ -64,19 +59,19 @@ class FroggerGame
         //initialize mrFrog 
         initializeMrFrog();
 
+            Menu();
+    }
+
+    public static void NewGame()
+    {
         while (true)
         {
-
-            //SelectionMenu();
-            //Menu();
-            //We shoud choose a menu and make a class or method for entire new game
 
             //Move enemy Cars 
             MoveEnemyCars();
 
             // clear the console - so we dont see the PAST !
             Console.Clear();
-
             // create mr.Frog 
             MoveAndDrawMrFrog();
 
@@ -86,7 +81,6 @@ class FroggerGame
             //TODO : make that the 1st simbol shows thedirection in which they are moving
             // '==>' or '<====' or '>' or '<' or '<===' hope you get it
             CreateEnemies();
-
 
             //display Colision
             //PS: there is a problem >> we detect colision with the cars only if we hit the the first index of the car
@@ -104,94 +98,98 @@ class FroggerGame
 
             Thread.Sleep(gameSpeed);
 
-
             collisionFlag = false;
 
         }
     }
-    //static void SelectionMenu()
-    //{
-        
 
-    //    PrintingString(12, 6, "This is FROGGER");
-    //    PrintingString(10, 8, "Press N for New game");
-    //    PrintingString(10, 10, "Pres S for Scores");
-    //    PrintingString(10, 12, "Press R for Rules ");
-    //    ConsoleKeyInfo key = Console.ReadKey();
+    static void Menu()
+    {
+        Console.Clear();
+        PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
+        PrintingString(10, 8, "Scores");
+        PrintingString(10, 10, "Game Rules");
 
-    //    switch (key.Key)
-    //    {
-    //        case ConsoleKey.N: Console.WriteLine("new game"); break;
-    //        case ConsoleKey.S: Console.WriteLine("Scores"); break;
-    //        case ConsoleKey.R: Console.WriteLine("Rules"); break;
-    //        default: Console.WriteLine("new game");
-    //            break;
-    //    }
-    //    Console.Clear()
-    
-    //}
-    //static void Menu()
-    //{
-    //    PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
-    //    PrintingString(10, 8, "Scores");
-    //    PrintingString(10, 10, "Game Rules");
+        Console.CursorVisible = false;
+        ConsoleKeyInfo key = Console.ReadKey();
 
-    //    Console.CursorVisible = false;
-    //    ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.Enter)
+        {  //start game
+            Console.Clear();
+            NewGame();
+        }
+        else
+        {
+            if (key.Key == ConsoleKey.DownArrow)
+            {
+                PrintingString(10, 6, "New Game", ConsoleColor.White);
+                PrintingString(10, 8, "Scores", ConsoleColor.Yellow);
+                PrintingString(10, 10, "Game Rules", ConsoleColor.White);
+                Console.SetCursorPosition(10, 8);
+                key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    Scores();
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.DownArrow)
+                    {
+                        PrintingString(10, 6, "New Game", ConsoleColor.White);
+                        PrintingString(10, 8, "Scores", ConsoleColor.White);
+                        PrintingString(10, 10, "Game Rules", ConsoleColor.Yellow);
 
-    //    if (key.Key == ConsoleKey.Enter)
-    //    {  //start game
-    //        Console.Clear();
-    //        Console.WriteLine("\nNew game shoud be started here\n");
-    //    }
-    //    else
-    //    {
-    //        if (key.Key == ConsoleKey.DownArrow)
-    //        {
-    //            PrintingString(10, 6, "New Game", ConsoleColor.White);
-    //            PrintingString(10, 8, "Scores", ConsoleColor.Yellow);
-    //            PrintingString(10, 10, "Game Rules", ConsoleColor.White);
-    //            Console.SetCursorPosition(10, 8);
-    //            key = Console.ReadKey();
-    //            if (key.Key == ConsoleKey.Enter)
-    //            {
-    //                Console.Clear();
-    //                Console.WriteLine("Scores written by txt. file\n");
-    //            }
-    //            else
-    //            {
-    //                if (key.Key == ConsoleKey.DownArrow)
-    //                {
-    //                    PrintingString(10, 6, "New Game", ConsoleColor.White);
-    //                    PrintingString(10, 8, "Scores", ConsoleColor.White);
-    //                    PrintingString(10, 10, "Game Rules", ConsoleColor.Yellow);
-
-    //                    Console.WriteLine();
-    //                    key = Console.ReadKey();
-    //                    if (key.Key == ConsoleKey.Enter)
-    //                    {
-    //                        Console.Clear();
-    //                        Console.WriteLine("Rules........\n");
-    //                    }
-    //                    else
-    //                    { Console.WriteLine(); }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+                        Console.WriteLine();
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.Enter)
+                        {
+                            Console.Clear();
+                            Rules();
+                        }
+                        else { Main(); }
+                    }
+                    else { Main(); }
+                }
+            }
+            else  {   Main(); }
+        }
+    }
 
     static void Rules()
     {
+        Console.Clear();
         Console.WriteLine(@"
  
 Hey, this is Fogger.
 You are the little smile at the bottom of the screen.
 You shoud redirect the frog(smile) to his home.
 But you shoud be prepared for all the cars crossing the road.
-You can move in all directions:
+You can move in all directions.
+
         ");
+        Console.WriteLine("\tPress N for new game\n\n\tPress M for Main Manu");
+        ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.N)
+        {
+            NewGame();
+        }
+        else
+        {
+            if (key.Key == ConsoleKey.M)
+            {
+                Console.Clear();
+                Menu();
+            }
+            else
+            {
+                Rules();
+            }
+        }
+
+        
     }
+
     static void LevelUp()
     {
 
@@ -216,6 +214,7 @@ You can move in all directions:
         Console.ForegroundColor = color;
         Console.Write(str);
     }
+
     static void initializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
@@ -375,7 +374,6 @@ You can move in all directions:
         //I guess here C# acts like a magic wand - pure magic
     }
 
-
     static void PrintAtPosition(int x, int y, char symbol, ConsoleColor color, int elementBodyWidth = 1)
     {
         Console.SetCursorPosition(x, y);
@@ -407,20 +405,27 @@ You can move in all directions:
 
     }
 
-    public static void GameOver()
+    static void Scores()
     {
-        //string[] gameOver = new string[]
+        Console.WriteLine("\tTop 10 scores");
+       // File.ReadLines("highscore.txt").Select(line => int.Parse(line)).OrderByDescending(score => score).Take(10);
+    //    TextWriter textWriter = new StreamWriter();
+    //    //here we have to figure a way to add an actual score
+    //    //....
+    //    textWriter.Close();
+
+    //    TextReader textReader = new StreamReader();
+        
+        //for (int i = 0; i < length; i++)
         //    {
-        //    @"   _________    _____   ____     _______  __ ___________ ",
-        //    @"  / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \",
-        //    @" / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/",
-        //    @" \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|   ",
-        //    @"/_____/     \/      \/     \/                   \/       "
-        //    };
+			 
+        //    }
+    //    textReader.ReadLine();
+    //    Console.WriteLine(textReader);
+    }
 
-        //Console.Clear();
-        //PrintStringArray(gameOver);
-
+     static void GameOver()
+    {
         string fileName = @"..\..\frogGameOver.txt";
         StreamReader streamReader = new StreamReader(fileName);
 
@@ -429,11 +434,10 @@ You can move in all directions:
             string fileContents = streamReader.ReadToEnd();
             Console.WriteLine(fileContents);
         }
+        
+        Console.WriteLine("\t\tScore:" + gameScore);
+        Console.WriteLine("\n\tPress any key");
         Console.ReadKey(true);
-
-
-
+        Menu();
     }
-
-
 }
