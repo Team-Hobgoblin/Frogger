@@ -159,12 +159,12 @@ class FroggerGame
         newEnemyCar.y = randomGenerator.Next(1, gameHeight - 2);
         if (newEnemyCar.y % 2 == 1)
         {
-            newEnemyCar.x = 0;
+            newEnemyCar.x = 5;
             newEnemyCar.direction = 1;
         }
-        else if (newEnemyCar.y % 2 == 0)
+        else //if (newEnemyCar.y % 2 == 0)
         {
-            newEnemyCar.x = gameWidth - 1;
+            newEnemyCar.x = gameWidth - 6;
             newEnemyCar.direction = -1;
         }
         newEnemyCar.width = randomGenerator.Next(1, 5);
