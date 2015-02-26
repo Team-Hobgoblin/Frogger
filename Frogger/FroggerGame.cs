@@ -20,6 +20,7 @@
 
 using System;
 using System.Linq;
+using System.IO;
 using System.Activities;
 using System.Activities.Statements;
 using System.Threading;
@@ -44,7 +45,7 @@ class FroggerGame
     static int gameScore = 0;
     static int gameCurrentLevel = 0;
     static int gameWidth = 40;
-    static int gameHeight = 25;
+    static int gameHeight = 35;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -87,15 +88,8 @@ class FroggerGame
             // we will not have a collision !!!! only if we hit its first ->>> the element with index 0 (the most left)
             //this can be solved by List.Contains
             //
-            if (collisionFlag)
-            {
-                //display X /colision/
-                PrintAtPosition(mrFrog.x,
-                    mrFrog.y,
-                    'X',
-                    ConsoleColor.Red);
-                GameOver();
-            }
+            Lives();
+
             PrintingString(41, 4, "Lives: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
             PrintingString(41, 6, "Score: " + gameScore);
@@ -216,6 +210,40 @@ class FroggerGame
         }
     }
 
+    static void Lives()
+    {
+
+        for (int i = 0; i < cars.Count; i++)
+        {
+            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
+            {
+                //set that we have been hit 
+                collisionFlag = true;
+                //remove 1 live from total
+                if (mrFrogLives != 0)
+                {
+                    mrFrogLives--;
+                    //hit = true;
+                    PrintAtPosition(mrFrog.x,
+                    mrFrog.y,
+                    'X',
+                  ConsoleColor.Red);
+                }
+                else
+                {
+                    GameOver();
+                }
+            }
+            if (collisionFlag)
+            {
+
+                Console.Beep();
+                initializeMrFrog();
+                //Printing(dwarf.posX, dwarf.posY, "X", ConsoleColor.Red);
+            }
+        }
+    }
+
     static void MoveEnemyCars()
     {
         for (int i = 0; i < cars.Count; i++)
@@ -231,30 +259,7 @@ class FroggerGame
 
             //check for Colision 
 
-            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
-            {
-                //set that we have been hit 
-                collisionFlag = true;
-                if (gameScore % 40 == 0)
-                {
-                    mrFrogLives++;
-                }
-                //remove 1 live from total
-                if (mrFrogLives != 0)
-                {
-                    mrFrogLives--;
-                    //hit = true;
-                }
-                else
-                {
-                    //GOTO : Activate gameOver !
-                }
-            }
-            if (collisionFlag)
-            {
-                Console.Beep();
-                initializeMrFrog();
-            }
+           
             if (cars[i].x >= gameWidth - 5 || cars[i].x <= 5)
             {
                 cars.Remove(cars[i]);
@@ -316,8 +321,19 @@ class FroggerGame
 
         Console.Clear();
         PrintStringArray(gameOver);
-        Console.WriteLine("\n\n\n");
+
+        string fileName = @"..\..\frogGameOver.txt";
+
+
+        StreamReader streamReader = new StreamReader(fileName);
+
+        using (streamReader)
+        {
+            string fileContents = streamReader.ReadToEnd();
+            Console.WriteLine(fileContents);
+        }
         Console.ReadKey(true);
+
 
 
     }
