@@ -112,7 +112,7 @@ class FroggerGame
     {
         mrFrog.x = gameWidth / 2;
         mrFrog.y = gameHeight - 1;
-        mrFrog.bodySymbol = '@';
+        mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
 
@@ -259,4 +259,36 @@ class FroggerGame
         Console.BufferWidth = gameWidth;
         Console.BufferHeight = gameHeight;
     }
+
+    static void PrintStringArray(string[] newString)
+    {
+        foreach (var text in newString)
+        {
+            int whiteSpaces = (text.Length) / 2;
+            Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
+            
+        }
+
+
+    }
+
+    public static void GameOver()
+    {
+        string[] gameOver = new string[]
+            {
+            @"   _________    _____   ____     _______  __ ___________ ",
+            @"  / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \",
+            @" / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/",
+            @" \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|   ",
+            @"/_____/     \/      \/     \/                   \/       "
+            };
+
+        Console.Clear();
+        PrintStringArray(gameOver);
+        Console.WriteLine("\n\n\n");
+       
+        
+    }
+
+
 }
