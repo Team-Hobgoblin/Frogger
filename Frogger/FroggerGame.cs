@@ -154,10 +154,17 @@ class FroggerGame
         Car newEnemyCar = new Car();
         newEnemyCar.x = 0;
 
+        if (newEnemyCar.y % 2 == 0)
+        {
+            newEnemyCar.direction = randomGenerator.Next(0, 2);
+        }
+        else if (newEnemyCar.y % 2 == 1)
+        {
+            newEnemyCar.direction = randomGenerator.Next(2, 0);
+        }
         //Sidewalks are lanes that there are no cars
         //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
         newEnemyCar.y = randomGenerator.Next(1, gameHeight - 2);
-        newEnemyCar.direction = randomGenerator.Next(0, 2);
         newEnemyCar.width = randomGenerator.Next(1, 5);
         newEnemyCar.color = ConsoleColor.Yellow;
         newEnemyCar.bodySymbol = '=';
