@@ -24,25 +24,12 @@ using System.Activities;
 using System.Activities.Statements;
 using System.Threading;
 using System.Collections.Generic;
+using Frogger;
 
 class FroggerGame
 {
 
-    class Car
-    {
-        public int x;
-        public int y;
-        public int width;
-        public int direction;
-        public char bodySymbol;
-        public ConsoleColor color;
-
-
-        public void MoveCar()
-        {
-            this.x += this.direction;
-        }
-    }
+    
 
     struct Frog
     {
@@ -54,8 +41,10 @@ class FroggerGame
 
     static Random randomGenerator = new Random();
 
+    static int gameScore = 0;
+    static int gameCurrentLevel = 0;
     static int gameWidth = 40;
-    static int gameHeight = 15;
+    static int gameHeight = 25;
     static int gameSpeed = 300;
 
     static Frog mrFrog = new Frog();
@@ -109,12 +98,17 @@ class FroggerGame
             }
             PrintingString(41, 4, "Lives: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
+            PrintingString(41, 6, "Score: " + gameScore);
+
             Thread.Sleep(gameSpeed);
 
+            
             collisionFlag = false;
 
         }
     }
+
+
 
     static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
     {
@@ -263,6 +257,8 @@ class FroggerGame
 
         Console.WindowWidth = gameWidth + 15;
         Console.WindowHeight = gameHeight;
+        Console.BufferHeight = Console.WindowHeight;
+        Console.BufferWidth = Console.WindowWidth;
     }
 
     static void PrintStringArray(string[] newString)
