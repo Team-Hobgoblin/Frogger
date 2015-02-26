@@ -105,6 +105,7 @@ class FroggerGame
                     mrFrog.y,
                     'X',
                     ConsoleColor.Red);
+                GameOver();
             }
             PrintingString(41, 4, "Lives: " + mrFrogLives);
             // slow down the program - so we can see what is happening 
@@ -291,6 +292,7 @@ class FroggerGame
         Console.Clear();
         PrintStringArray(gameOver);
         Console.WriteLine("\n\n\n");
+        Console.ReadKey(true);
        
         
     }
