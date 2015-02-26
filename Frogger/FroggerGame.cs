@@ -401,8 +401,19 @@ You can move in all directions.
     {
         Console.WriteLine("\tTop 10 scores");
        // File.ReadLines("highscore.txt").Select(line => int.Parse(line)).OrderByDescending(score => score).Take(10);
+    //    TextWriter textWriter = new StreamWriter();
+    //    //here we have to figure a way to add an actual score
+    //    //....
+    //    textWriter.Close();
 
-
+    //    TextReader textReader = new StreamReader();
+        
+        //for (int i = 0; i < length; i++)
+        //    {
+			 
+        //    }
+    //    textReader.ReadLine();
+    //    Console.WriteLine(textReader);
     }
 
      static void GameOver()
