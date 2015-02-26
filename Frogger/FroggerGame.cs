@@ -29,9 +29,6 @@ using Frogger;
 
 class FroggerGame
 {
-
-
-
     struct Frog
     {
         public int x;
@@ -64,6 +61,7 @@ class FroggerGame
 
             Menu();
     }
+
     public static void NewGame()
     {
         while (true)
@@ -107,6 +105,7 @@ class FroggerGame
 
     static void Menu()
     {
+        Console.Clear();
         PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
         PrintingString(10, 8, "Scores");
         PrintingString(10, 10, "Game Rules");
@@ -131,7 +130,7 @@ class FroggerGame
                 if (key.Key == ConsoleKey.Enter)
                 {
                     Console.Clear();
-                    Console.WriteLine("Scores written by txt. file\n");
+                    Scores();
                 }
                 else
                 {
@@ -398,20 +397,16 @@ You can move in all directions.
 
     }
 
+    static void Scores()
+    {
+        Console.WriteLine("\tTop 10 scores");
+       // File.ReadLines("highscore.txt").Select(line => int.Parse(line)).OrderByDescending(score => score).Take(10);
+
+
+    }
+
      static void GameOver()
     {
-        //string[] gameOver = new string[]
-        //    {
-        //    @"   _________    _____   ____    _______  __ ___________ ",
-        //    @"  / ___\__  \  /     \_/ __ \  /  _ \  \/ // __ \_  __ \",
-        //    @" / /_/  > __ \|  Y Y  \  ___/ (  <_> )   /\  ___/|  | \/",
-        //    @" \___  (____  /__|_|  /\___  > \____/ \_/  \___  >__|   ",
-        //    @"/_____/     \/      \/     \/                  \/     "
-        //    };
-
-        //Console.Clear();
-        //PrintStringArray(gameOver);
-
         string fileName = @"..\..\frogGameOver.txt";
         StreamReader streamReader = new StreamReader(fileName);
 
@@ -420,10 +415,10 @@ You can move in all directions.
             string fileContents = streamReader.ReadToEnd();
             Console.WriteLine(fileContents);
         }
+        
+        Console.WriteLine("\t\tScore:" + gameScore);
+        Console.WriteLine("\n\tPress any key");
         Console.ReadKey(true);
-       
-        //Menu();
+        Menu();
     }
-
-
 }
