@@ -24,6 +24,7 @@ using System.IO;
 using System.Activities;
 using System.Activities.Statements;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Frogger;
 
@@ -59,14 +60,20 @@ class FroggerGame
         //initialize mrFrog 
         initializeMrFrog();
 
-            Menu();
+        Menu();
     }
 
     public static void NewGame()
     {
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                PlaySound();
+            }
+        });
         while (true)
         {
-
             //Move enemy Cars 
             MoveEnemyCars();
 
@@ -425,7 +432,7 @@ You can move in all directions.
     }
 
      static void GameOver()
-    {
+     {
         string fileName = @"..\..\frogGameOver.txt";
         StreamReader streamReader = new StreamReader(fileName);
 
@@ -439,5 +446,187 @@ You can move in all directions.
         Console.WriteLine("\n\tPress any key");
         Console.ReadKey(true);
         Menu();
-    }
+     }
+     static void PlaySound()
+     {
+         //Super Mario Theme Song
+         Console.Beep(659, 125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(523, 125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(784, 125);
+         Thread.Sleep(375);
+         Console.Beep(392, 125);
+         Thread.Sleep(375);
+         Console.Beep(523, 125);
+         Thread.Sleep(250);
+         Console.Beep(392, 125);
+         Thread.Sleep(250);
+         Console.Beep(330, 125);
+         Thread.Sleep(250);
+         Console.Beep(440, 125);
+         Thread.Sleep(125);
+         Console.Beep(494, 125);
+         Thread.Sleep(125);
+         Console.Beep(466, 125);
+         Thread.Sleep(42);
+         Console.Beep(440, 125);
+         Thread.Sleep(125);
+         Console.Beep(392, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(784, 125);
+         Thread.Sleep(125);
+         Console.Beep(880, 125);
+         Thread.Sleep(125);
+         Console.Beep(698, 125);
+         Console.Beep(784, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(587, 125);
+         Console.Beep(494, 125);
+         Thread.Sleep(125);
+         Console.Beep(523, 125);
+         Thread.Sleep(250);
+         Console.Beep(392, 125);
+         Thread.Sleep(250);
+         Console.Beep(330, 125);
+         Thread.Sleep(250);
+         Console.Beep(440, 125);
+         Thread.Sleep(125);
+         Console.Beep(494, 125);
+         Thread.Sleep(125);
+         Console.Beep(466, 125);
+         Thread.Sleep(42);
+         Console.Beep(440, 125);
+         Thread.Sleep(125);
+         Console.Beep(392, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(784, 125);
+         Thread.Sleep(125);
+         Console.Beep(880, 125);
+         Thread.Sleep(125);
+         Console.Beep(698, 125);
+         Console.Beep(784, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(587, 125);
+         Console.Beep(494, 125);
+         Thread.Sleep(375);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(415, 125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(698, 125);
+         Thread.Sleep(125);
+         Console.Beep(698, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(625);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(415, 125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(622, 125);
+         Thread.Sleep(250);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(523, 125);
+         Thread.Sleep(1125);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(415, 125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(698, 125);
+         Thread.Sleep(125);
+         Console.Beep(698, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(625);
+         Console.Beep(784, 125);
+         Console.Beep(740, 125);
+         Console.Beep(698, 125);
+         Thread.Sleep(42);
+         Console.Beep(622, 125);
+         Thread.Sleep(125);
+         Console.Beep(659, 125);
+         Thread.Sleep(167);
+         Console.Beep(415, 125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Thread.Sleep(125);
+         Console.Beep(440, 125);
+         Console.Beep(523, 125);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(622, 125);
+         Thread.Sleep(250);
+         Console.Beep(587, 125);
+         Thread.Sleep(250);
+         Console.Beep(523, 125);
+         Thread.Sleep(625);
+     }
 }
