@@ -49,7 +49,7 @@ class FroggerGame
     static int gameLevel = 1;
 
     static Frog mrFrog = new Frog();
-    static int mrFrogLives = 3; // because F(frog) is the 6th letter in Engl
+    static int mrFrogLives = 3;
 
     static List<Car> cars = new List<Car>();
     static bool collisionFlag = false;
@@ -57,25 +57,30 @@ class FroggerGame
     static void Main()
     {
         SetGameDimensions();
-        //PrintBorders();
         //initialize mrFrog 
         initializeMrFrog();
 
         Menu();
     }
-   // static void PrintBorders()
-   // {
-   //     for (int col = 0; col < gameWidth; col++)
-   //     {
-   //         Print(0, col, '-');
-   //         Print(gameHeight - 1, col, '_');
-   //     }
-   //     for (int row = 0; row < gameHeight; row++)
-   //     {
-   //         Print(row, 0, '|');
-   //         Print(row, 25, '|');
-   //     }
-   // }
+    static void PrintBorders()
+    {
+        for (int col = 0; col < Console.WindowWidth; col++)
+        {
+            Print(0, col, '#');
+            Print(gameHeight, col, '#');
+        }
+        for (int row = 0; row < gameHeight; row++)
+        {
+            Print(row, 0, '#');
+            Print(row, gameWidth - 1, '#');
+        }
+    }
+    static void Print(int row, int col, object data)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.SetCursorPosition(col, row);
+        Console.Write(data);
+    }
 
     public static void NewGame()
     {
@@ -88,39 +93,20 @@ class FroggerGame
         });
         while (true)
         {
-            //Move enemy Cars 
-            MoveEnemyCars();
-
-            // clear the console - so we dont see the PAST !
             Console.Clear();
-            // create mr.Frog 
+            MoveEnemyCars();
             MoveAndDrawMrFrog();
-
-            // create enemies for mr.Frog - cars/obstacles
-            //TODO : make so that when we start we have verywhere cars, not to wait them to be created
-            //TODO : some cars move from left to right | some from right to left
-            //TODO : make that the 1st simbol shows thedirection in which they are moving
-            // '==>' or '<====' or '>' or '<' or '<===' hope you get it
+            PrintBorders();
             CreateEnemies();
-
-            //display Colision
-            //PS: there is a problem >> we detect colision with the cars only if we hit the the first index of the car
-            //this means that if we have a 4 elementBody car(====) and hit its last element (the most right) 
-            // we will not have a collision !!!! only if we hit its first ->>> the element with index 0 (the most left)
-            //this can be solved by List.Contains
-            //
             Lives();
 
             PrintingString(41, 4, "Lives left: " + mrFrogLives);
-            // slow down the program - so we can see what is happening 
             PrintingString(41, 6, "Score: " + gameScore);
-
             PrintingString(41, 8, "Level: " + gameLevel);
 
             Thread.Sleep(gameSpeed);
 
             collisionFlag = false;
-
         }
     }
 
@@ -176,7 +162,6 @@ class FroggerGame
             else  {   Main(); }
         }
     }
-
     static void Rules()
     {
         Console.Clear();
@@ -207,13 +192,9 @@ You can move in all directions.
                 Rules();
             }
         }
-
-        
     }
-
     static void LevelUp()
     {
-
         if (mrFrog.y == 3)
         {
             gameSpeed -= 50;
@@ -224,9 +205,7 @@ You can move in all directions.
             cars.Clear();
             initializeMrFrog();
             gameLevel++;
-
         }
-
     }
 
     static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
@@ -268,8 +247,7 @@ You can move in all directions.
                 {
                     mrFrog.y--;
                     gameScore++;
-                }
-                    
+                } 
             }
             if (pressedKey.Key == ConsoleKey.DownArrow)//move Down vvv
             {
@@ -278,13 +256,9 @@ You can move in all directions.
                     mrFrog.y++;
                     gameScore--;
                 }
-                    
-                
             }
-
         }
         LevelUp();
-
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
@@ -292,7 +266,6 @@ You can move in all directions.
     static void CreateEnemies()
     {
         Car newEnemyCar = new Car();
-
 
         if (newEnemyCar.y % 2 == 0)
         {
@@ -332,7 +305,6 @@ You can move in all directions.
 
     static void Lives()
     {
-
         for (int i = 0; i < cars.Count; i++)
         {
             if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
@@ -343,7 +315,6 @@ You can move in all directions.
                 if (mrFrogLives != 0)
                 {
                     mrFrogLives--;
-                    //hit = true;
                     PrintAtPosition(mrFrog.x,
                     mrFrog.y,
                     'X',
@@ -354,13 +325,11 @@ You can move in all directions.
                     GameOver();
                 }
             }
-            if (collisionFlag)
-            {
-
-                Console.Beep();
-                initializeMrFrog();
-                //Printing(dwarf.posX, dwarf.posY, "X", ConsoleColor.Red);
-            }
+        }
+        if (collisionFlag)
+        {
+            Console.Beep();
+            initializeMrFrog();
         }
     }
 
@@ -369,30 +338,13 @@ You can move in all directions.
         for (int i = 0; i < cars.Count; i++)
         {
             cars[i].MoveCar();
-
-
-            //maybe Colision detection has to be solved something like the lines below???
-            //if (currentCar.y == mrFrog.y) cars.Contains(mrFrog.x);
-            //{ 
-            //    collisionFlag = true;
-            //}
-
-            //check for Colision 
-
-           
+                       
             if (cars[i].x >= gameWidth - 5 || cars[i].x <= 5)
             {
                 cars.Remove(cars[i]);
                 --i;
             }
         }
-        //Rly i have no clue why I have to create a new list
-        //then create a oldCar and currentCar and set currentCar variables to oldCar
-        //and then add it to the new LIST 
-        //and how by doing this I solve the problem  .... 
-        //at http://telerikacademy.com/Courses/LectureResources/Video/5433/Just-Cars-%D0%9D%D0%B8%D0%BA%D0%B8-21-%D0%BD%D0%BE%D0%B5%D0%BC%D0%B2%D1%80%D0%B8-2012
-        //min 60:41 they explain and do it like just like this
-        //I guess here C# acts like a magic wand - pure magic
     }
 
     static void PrintAtPosition(int x, int y, char symbol, ConsoleColor color, int elementBodyWidth = 1)
@@ -408,7 +360,6 @@ You can move in all directions.
     static void SetGameDimensions()
     {
         Console.CursorVisible = false;
-
         Console.WindowWidth = gameWidth + 15;
         Console.WindowHeight = gameHeight + 2;
         Console.BufferHeight = Console.WindowHeight;
@@ -421,9 +372,7 @@ You can move in all directions.
         {
             int whiteSpaces = (text.Length) / 2;
             Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
-
         }
-
     }
 
     static void Scores()
@@ -468,9 +417,7 @@ You can move in all directions.
         if (key.Key == ConsoleKey.Enter)
         {
             Menu();
-            
         }
-         
      }
      static void PlaySound()
      {
