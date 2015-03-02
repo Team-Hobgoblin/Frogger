@@ -42,7 +42,6 @@ class FroggerGame
     static Random randomGenerator = new Random();
 
     static int gameScore = 0;
-    static int gameCurrentLevel = 0;
     static int gameWidth = 40;
     static int gameHeight = 25;
     static int gameSpeed = 300;
@@ -52,14 +51,20 @@ class FroggerGame
     static int mrFrogLives = 3;
 
     static List<Car> cars = new List<Car>();
+    static ConsoleColor[] carColors = { ConsoleColor.Red, ConsoleColor.DarkMagenta, ConsoleColor.Blue, ConsoleColor.DarkCyan, ConsoleColor.White };
     static bool collisionFlag = false;
 
     static void Main()
     {
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                PlaySound();
+            }
+        });
         SetGameDimensions();
-        //initialize mrFrog 
-        initializeMrFrog();
-
+        InitializeMrFrog();
         Menu();
     }
     static void PrintBorders()
@@ -84,13 +89,6 @@ class FroggerGame
 
     public static void NewGame()
     {
-        Task.Run(() =>
-        {
-            while (true)
-            {
-                PlaySound();
-            }
-        });
         while (true)
         {
             Console.Clear();
@@ -195,15 +193,16 @@ You can move in all directions.
     }
     static void LevelUp()
     {
-        if (mrFrog.y == 3)
+        if (mrFrog.y == 1)
         {
             gameSpeed -= 50;
             if (gameSpeed < 100)
             {
                 gameSpeed = 100;
             }
+            gameScore += 50;
             cars.Clear();
-            initializeMrFrog();
+            InitializeMrFrog();
             gameLevel++;
         }
     }
@@ -215,7 +214,7 @@ You can move in all directions.
         Console.Write(str);
     }
 
-    static void initializeMrFrog()
+    static void InitializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
         mrFrog.y = gameHeight - 1;
@@ -267,29 +266,19 @@ You can move in all directions.
     {
         Car newEnemyCar = new Car();
 
-        if (newEnemyCar.y % 2 == 0)
-        {
-            newEnemyCar.direction = randomGenerator.Next(0, 2);
-        }
-        else if (newEnemyCar.y % 2 == 1)
-        {
-            newEnemyCar.direction = randomGenerator.Next(2, 0);
-        }
-        //Sidewalks are lanes that there are no cars
-        //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
-        newEnemyCar.y = randomGenerator.Next(3, gameHeight - 4);
+        newEnemyCar.y = randomGenerator.Next(1, gameHeight - 1);
         if (newEnemyCar.y % 2 == 1)
         {
-            newEnemyCar.x = 5;
+            newEnemyCar.x = 1;
             newEnemyCar.direction = 1;
         }
         else //if (newEnemyCar.y % 2 == 0)
         {
-            newEnemyCar.x = gameWidth - 6;
+            newEnemyCar.x = gameWidth - 5;
             newEnemyCar.direction = -1;
         }
         newEnemyCar.width = randomGenerator.Next(1, 5);
-        newEnemyCar.color = ConsoleColor.Yellow;
+        newEnemyCar.color = carColors[randomGenerator.Next(0, carColors.Length)];
         newEnemyCar.bodySymbol = '=';
         cars.Add(newEnemyCar);
 
@@ -307,14 +296,14 @@ You can move in all directions.
     {
         for (int i = 0; i < cars.Count; i++)
         {
-            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width) && cars[i].y == mrFrog.y)
+            if ((mrFrog.x >= cars[i].x && mrFrog.x <= cars[i].x + cars[i].width - 1) && cars[i].y == mrFrog.y)
             {
                 //set that we have been hit 
                 collisionFlag = true;
+                mrFrogLives--;
                 //remove 1 live from total
                 if (mrFrogLives != 0)
                 {
-                    mrFrogLives--;
                     PrintAtPosition(mrFrog.x,
                     mrFrog.y,
                     'X',
@@ -329,7 +318,7 @@ You can move in all directions.
         if (collisionFlag)
         {
             Console.Beep();
-            initializeMrFrog();
+            InitializeMrFrog();
         }
     }
 
@@ -339,7 +328,7 @@ You can move in all directions.
         {
             cars[i].MoveCar();
                        
-            if (cars[i].x >= gameWidth - 5 || cars[i].x <= 5)
+            if (cars[i].x >= gameWidth - 5 || cars[i].x <= 1)
             {
                 cars.Remove(cars[i]);
                 --i;
@@ -365,16 +354,6 @@ You can move in all directions.
         Console.BufferHeight = Console.WindowHeight;
         Console.BufferWidth = Console.WindowWidth;
     }
-
-    static void PrintStringArray(string[] newString)
-    {
-        foreach (var text in newString)
-        {
-            int whiteSpaces = (text.Length) / 2;
-            Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
-        }
-    }
-
     static void Scores()
     {
         Console.WriteLine("\tTop 10 scores");
@@ -396,6 +375,7 @@ You can move in all directions.
 
      static void GameOver()
      {
+        Console.Clear();
         string fileName = @"..\..\frogGameOver.txt";
         StreamReader streamReader = new StreamReader(fileName);
 
@@ -409,8 +389,11 @@ You can move in all directions.
         Console.WriteLine("\n\tPress Enter");
 
         gameScore = 0;
-        gameLevel = 300;
+        gameLevel = 1;
+        InitializeMrFrog();
+        cars.Clear();
         mrFrogLives = 3;
+        gameSpeed = 300;
 
          ConsoleKeyInfo key = Console.ReadKey();
 
