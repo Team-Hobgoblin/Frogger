@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Frogger;
 
+
 class FroggerGame
 {
     struct Frog
@@ -56,12 +57,25 @@ class FroggerGame
     static void Main()
     {
         SetGameDimensions();
-
+        //PrintBorders();
         //initialize mrFrog 
         initializeMrFrog();
 
         Menu();
     }
+   // static void PrintBorders()
+   // {
+   //     for (int col = 0; col < gameWidth; col++)
+   //     {
+   //         Print(0, col, '-');
+   //         Print(gameHeight - 1, col, '_');
+   //     }
+   //     for (int row = 0; row < gameHeight; row++)
+   //     {
+   //         Print(row, 0, '|');
+   //         Print(row, 25, '|');
+   //     }
+   // }
 
     public static void NewGame()
     {
