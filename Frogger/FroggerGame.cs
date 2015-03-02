@@ -61,20 +61,44 @@ class FroggerGame
     }
     static void PrintBorders()
     {
-        for (int col = 0; col < Console.WindowWidth; col++)
+        char[,] borders = new char[Console.WindowWidth - 1, Console.WindowHeight];
+        for (int col = 0; col < borders.GetLength(0); col++)
         {
-            Print(0, col, '#');
-            Print(gameHeight, col, '#');
-        }
-        for (int row = 0; row < gameHeight; row++)
-        {
-            Print(row, 0, '#');
-            Print(row, gameWidth - 1, '#');
+            for (int row = 0; row < borders.GetLength(1); row++)
+            {
+                if (row < 2)
+                {
+                    Print(row, col, '#');
+                }
+                else if (row == gameHeight - 1 || row == gameHeight)
+                {
+                    Print(row, col, '#');
+                }
+                else
+                {
+                    if (col == 0)
+                    {
+                        Print(row, 0, '#');
+                    }
+                    else if (col == 1)
+                    {
+                        Print(row, 1, '#');
+                    }
+                    else if (col == gameWidth)
+                    {
+                        Print(row, gameWidth, '#');
+                    }
+                    else if (col == gameWidth - 1)
+                    {
+                        Print(row, gameWidth - 1, '#');
+                    }
+                }
+            }
         }
     }
     static void Print(int row, int col, object data)
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.Red;
         Console.SetCursorPosition(col, row);
         Console.Write(data);
     }
@@ -97,9 +121,9 @@ class FroggerGame
             CreateEnemies();
             Lives();
 
-            PrintingString(41, 4, "Lives left: " + mrFrogLives);
-            PrintingString(41, 6, "Score: " + gameScore);
-            PrintingString(41, 8, "Level: " + gameLevel);
+            PrintingString(44, 4, "Lives left: " + mrFrogLives);
+            PrintingString(44, 6, "Score: " + gameScore);
+            PrintingString(44, 8, "Level: " + gameLevel);
 
             Thread.Sleep(gameSpeed);
 
@@ -192,7 +216,7 @@ You can move in all directions.
     }
     static void LevelUp()
     {
-        if (mrFrog.y == 3)
+        if (mrFrog.y == 1)
         {
             gameSpeed -= 50;
             if (gameSpeed < 100)
@@ -215,7 +239,7 @@ You can move in all directions.
     static void initializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
-        mrFrog.y = gameHeight - 1;
+        mrFrog.y = gameHeight - 2;
         mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
@@ -347,10 +371,10 @@ You can move in all directions.
     static void SetGameDimensions()
     {
         Console.CursorVisible = false;
-        Console.WindowWidth = gameWidth + 15;
-        Console.WindowHeight = gameHeight + 2;
-        Console.BufferHeight = Console.WindowHeight;
+        Console.WindowWidth = gameWidth + 20;
         Console.BufferWidth = Console.WindowWidth;
+        Console.WindowHeight = gameHeight + 1;
+        Console.BufferHeight = gameHeight + 1;
     }
     static void Scores()
     {
