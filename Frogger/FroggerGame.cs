@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Frogger;
+using System.Text.RegularExpressions;
 
 
 class FroggerGame
@@ -159,7 +160,7 @@ class FroggerGame
                 if (key.Key == ConsoleKey.Enter)
                 {
                     Console.Clear();
-                    Scores();
+                    PrintScores();
                 }
                 else
                 {
@@ -377,23 +378,58 @@ You can move in all directions.
         Console.WindowHeight = gameHeight + 1;
         Console.BufferHeight = gameHeight + 1;
     }
-    static void Scores()
+    static void PrintScores()
     {
         Console.WriteLine("\tTop 10 scores");
-       // File.ReadLines("highscore.txt").Select(line => int.Parse(line)).OrderByDescending(score => score).Take(10);
-    //    TextWriter textWriter = new StreamWriter();
-    //    //here we have to figure a way to add an actual score
-    //    //....
-    //    textWriter.Close();
 
-    //    TextReader textReader = new StreamReader();
-        
-        //for (int i = 0; i < length; i++)
-        //    {
-			 
-        //    }
-    //    textReader.ReadLine();
-    //    Console.WriteLine(textReader);
+        TextReader scoreReader = new StreamReader("../../Scores.txt");
+        string line = scoreReader.ReadLine();
+        Dictionary<string, int> scores = new Dictionary<string, int>();
+
+        while (line != null)
+        {
+            string[] currentScorer = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (!scores.ContainsKey(currentScorer[0]))
+            {
+                scores.Add(currentScorer[0], int.Parse(currentScorer[1]));
+            }
+            else
+            {
+                scores[currentScorer[0]] = int.Parse(currentScorer[1]);
+            }
+            line = scoreReader.ReadLine();
+        }
+        int scorePlace = 1;
+        foreach (var item in scores.OrderByDescending(key => key.Value).Select(x => string.Format("{0} - {1}", x.Key, x.Value)))
+        {
+            Console.WriteLine(scorePlace + ". " + item);
+            scorePlace++;
+            if (scorePlace > 10)
+            {
+                break;
+            }
+        }
+        scoreReader.Close();
+
+        Console.WriteLine("\n\nPress N for new game\nPress M for Main Manu");
+        ConsoleKeyInfo pressedKey = Console.ReadKey();
+        if (pressedKey.Key == ConsoleKey.N)
+        {
+            NewGame();
+        }
+        else
+        {
+            if (pressedKey.Key == ConsoleKey.M)
+            {
+                Console.Clear();
+                Menu();
+            }
+            else
+            {
+                Console.Clear();
+                PrintScores();
+            }
+        }
     }
 
      static void GameOver()
@@ -408,8 +444,13 @@ You can move in all directions.
             Console.WriteLine(fileContents);
         }
         
-        Console.WriteLine("\t\tScore:" + gameScore);
-        Console.WriteLine("\n\tPress Enter");
+        Console.WriteLine("Score:" + gameScore);
+        Console.WriteLine("What is your name?");
+        var playerName = Console.ReadLine();
+        var scoreWriter = new StreamWriter("../../Scores.txt", true);
+        scoreWriter.WriteLine(playerName + " " + gameScore);
+        scoreWriter.Close();
+        Console.WriteLine("\nPress Enter To Go Back To The Menu...");
 
         gameScore = 0;
         gameLevel = 1;
@@ -418,7 +459,7 @@ You can move in all directions.
         mrFrogLives = 3;
         gameSpeed = 300;
 
-         ConsoleKeyInfo key = Console.ReadKey();
+        ConsoleKeyInfo key = Console.ReadKey();
 
         if (key.Key == ConsoleKey.Enter)
         {
