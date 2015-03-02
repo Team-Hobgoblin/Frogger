@@ -42,7 +42,6 @@ class FroggerGame
     static Random randomGenerator = new Random();
 
     static int gameScore = 0;
-    static int gameCurrentLevel = 0;
     static int gameWidth = 40;
     static int gameHeight = 25;
     static int gameSpeed = 300;
@@ -57,9 +56,7 @@ class FroggerGame
     static void Main()
     {
         SetGameDimensions();
-        //initialize mrFrog 
         initializeMrFrog();
-
         Menu();
     }
     static void PrintBorders()
@@ -260,6 +257,7 @@ You can move in all directions.
         }
         LevelUp();
         //draw mrFrog on the Screen
+        PrintAtPosition(0, 0, ' ', ConsoleColor.Black);
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
 
@@ -267,16 +265,6 @@ You can move in all directions.
     {
         Car newEnemyCar = new Car();
 
-        if (newEnemyCar.y % 2 == 0)
-        {
-            newEnemyCar.direction = randomGenerator.Next(0, 2);
-        }
-        else if (newEnemyCar.y % 2 == 1)
-        {
-            newEnemyCar.direction = randomGenerator.Next(2, 0);
-        }
-        //Sidewalks are lanes that there are no cars
-        //lane 0 is Top Sidewalk | lane gameHeight - 1 is Bot Sidewalk | everything else is the road
         newEnemyCar.y = randomGenerator.Next(3, gameHeight - 4);
         if (newEnemyCar.y % 2 == 1)
         {
@@ -365,16 +353,6 @@ You can move in all directions.
         Console.BufferHeight = Console.WindowHeight;
         Console.BufferWidth = Console.WindowWidth;
     }
-
-    static void PrintStringArray(string[] newString)
-    {
-        foreach (var text in newString)
-        {
-            int whiteSpaces = (text.Length) / 2;
-            Console.WriteLine(text.PadLeft(whiteSpaces), 'a');
-        }
-    }
-
     static void Scores()
     {
         Console.WriteLine("\tTop 10 scores");
@@ -396,6 +374,7 @@ You can move in all directions.
 
      static void GameOver()
      {
+        Console.Clear();
         string fileName = @"..\..\frogGameOver.txt";
         StreamReader streamReader = new StreamReader(fileName);
 
@@ -409,8 +388,9 @@ You can move in all directions.
         Console.WriteLine("\n\tPress Enter");
 
         gameScore = 0;
-        gameLevel = 300;
+        gameLevel = 1;
         mrFrogLives = 3;
+        gameSpeed = 300;
 
          ConsoleKeyInfo key = Console.ReadKey();
 
