@@ -257,7 +257,6 @@ You can move in all directions.
         }
         LevelUp();
         //draw mrFrog on the Screen
-        PrintAtPosition(0, 0, ' ', ConsoleColor.Black);
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
 
