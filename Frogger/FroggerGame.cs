@@ -457,9 +457,20 @@ You can move in all directions.
         }
         
         Console.WriteLine("\t\tScore:" + gameScore);
-        Console.WriteLine("\n\tPress any key");
-        Console.ReadKey(true);
-        Menu();
+        Console.WriteLine("\n\tPress Enter");
+
+        gameScore = 0;
+        gameLevel = 300;
+        mrFrogLives = 3;
+
+         ConsoleKeyInfo key = Console.ReadKey();
+
+        if (key.Key == ConsoleKey.Enter)
+        {
+            Menu();
+            
+        }
+         
      }
      static void PlaySound()
      {
