@@ -262,7 +262,7 @@ You can move in all directions.
             }
             if (pressedKey.Key == ConsoleKey.RightArrow)//move Right <<<
             {
-                if (mrFrog.x < gameWidth - 1)
+                if (mrFrog.x < gameWidth - 2)
                     mrFrog.x++;
             }
             if (pressedKey.Key == ConsoleKey.UpArrow)//move Up ^^^
@@ -275,7 +275,7 @@ You can move in all directions.
             }
             if (pressedKey.Key == ConsoleKey.DownArrow)//move Down vvv
             {
-                if (mrFrog.y < gameHeight - 1)
+                if (mrFrog.y < gameHeight - 2)
                 {
                     mrFrog.y++;
                     gameScore--;
