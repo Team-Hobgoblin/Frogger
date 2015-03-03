@@ -70,10 +70,10 @@ class FroggerGame
     }
     static void PrintBorders()
     {
-        char[,] borders = new char[Console.WindowWidth - 1, Console.WindowHeight];
-        for (int col = 0; col < borders.GetLength(0); col++)
+        //char[,] borders = new char[Console.WindowWidth - 1, Console.WindowHeight];
+        for (int col = 0; col < Console.WindowWidth - 1; col++)
         {
-            for (int row = 0; row < borders.GetLength(1); row++)
+            for (int row = 0; row < Console.WindowHeight; row++)
             {
                 if (row < 2)
                 {
@@ -119,7 +119,7 @@ class FroggerGame
             Console.Clear();
             MoveEnemyCars();
             MoveAndDrawMrFrog();
-            PrintBorders();
+            //PrintBorders();
 
             CreateEnemies();
             Lives();
@@ -178,12 +178,24 @@ class FroggerGame
                             Console.Clear();
                             Rules();
                         }
-                        else { Main(); }
+                        else
+                        {
+                            Console.Clear();
+                            Menu();
+                        }
                     }
-                    else { Main(); }
+                    else
+                    {
+                        Console.Clear();
+                        Menu();
+                    }
                 }
             }
-            else { Main(); }
+            else
+            {
+                Console.Clear();
+                Menu();
+            }
         }
     }
     static void Rules()
@@ -437,6 +449,7 @@ You can move in all directions.
     {
         Console.Clear();
         string fileName = @"..\..\frogGameOver.txt";
+        Console.ForegroundColor = ConsoleColor.White;
         StreamReader streamReader = new StreamReader(fileName);
 
         using (streamReader)
@@ -446,8 +459,28 @@ You can move in all directions.
         }
 
         Console.WriteLine("Score:" + gameScore);
-        Console.WriteLine("What is your name?");
-        var playerName = Console.ReadLine();
+        string playerName = string.Empty;
+        while (true)
+        {
+            try
+            {
+                Console.WriteLine("What is your name?");
+                playerName = Console.ReadLine();
+                if (playerName.IndexOf(' ') >= 0)
+                {
+                    throw new ArgumentException("Name should not contain any spaces. Try again.");
+                }
+                else if (playerName.Length <= 0)
+                {
+                    throw new ArgumentException("Name should not be empty. Try again.");
+                }
+                break;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         var scoreWriter = new StreamWriter("../../Scores.txt", true);
         scoreWriter.WriteLine(playerName + " " + gameScore);
         scoreWriter.Close();

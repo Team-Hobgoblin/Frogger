@@ -1,4 +1,4 @@
-joro 11
+﻿joro 11
 dido 4
 DilyanTraykov 11
 dido 7
@@ -20,7 +20,11 @@ ahmed2 9
 blah3 95
 blah23 6
 Vladi 102
-Vladi Vladev 23
- 8
- 27
 boris 237
+Дидо 81
+Blah 253
+Dilyan 186
+Dido 6
+Dilyan 9
+Dido 12
+Dido 473
