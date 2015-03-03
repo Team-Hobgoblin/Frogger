@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Frogger;
 using System.Text.RegularExpressions;
+using System.Speech.Synthesis;
 
 
 class FroggerGame
@@ -41,6 +42,7 @@ class FroggerGame
     }
 
     static Random randomGenerator = new Random();
+    static SpeechSynthesizer voice = new SpeechSynthesizer();
 
     static int gameScore = 0;
     static int gameWidth = 40;
@@ -57,8 +59,10 @@ class FroggerGame
 
     static void Main()
     {
+        voice.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult);
         Task.Run(() =>
         {
+            voice.SpeakAsync("Welcome to Frogger!");
             while (true)
             {
                 PlaySound();
@@ -200,13 +204,18 @@ class FroggerGame
     }
     static void Rules()
     {
+        voice.SpeakAsync(@"Hey, this is Frogger. You are the little smile at the bottom of the screen.
+You should redirect the frog to his home.
+But you should be prepared for all the cars crossing the road.
+You can move in all directions.");
         Console.Clear();
         Console.WriteLine(@"
  
 Hey, this is Fogger.
 You are the little smile at the bottom of the screen.
 You shoud redirect the frog(smile) to his home.
-But you shoud be prepared for all the cars crossing the road.
+But you shoud be prepared for all
+the cars crossing the road.
 You can move in all directions.
 
         ");
@@ -337,6 +346,7 @@ You can move in all directions.
             {
                 //set that we have been hit 
                 collisionFlag = true;
+                voice.SpeakAsync("Ouch!");
                 mrFrogLives--;
                 //remove 1 live from total
                 if (mrFrogLives != 0)
@@ -447,6 +457,7 @@ You can move in all directions.
 
     static void GameOver()
     {
+        voice.SpeakAsync("Game over!");
         Console.Clear();
         string fileName = @"..\..\frogGameOver.txt";
         Console.ForegroundColor = ConsoleColor.White;
