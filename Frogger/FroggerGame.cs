@@ -21,13 +21,10 @@
 using System;
 using System.Linq;
 using System.IO;
-using System.Activities;
-using System.Activities.Statements;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Frogger;
-using System.Text.RegularExpressions;
 using System.Speech.Synthesis;
 
 
@@ -54,8 +51,16 @@ class FroggerGame
     static int mrFrogLives = 3;
 
     static List<Car> cars = new List<Car>();
-    static ConsoleColor[] carColors = { ConsoleColor.Red, ConsoleColor.DarkMagenta, ConsoleColor.Blue, ConsoleColor.DarkCyan, ConsoleColor.White };
+    static ConsoleColor[] carColors = { ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.White, ConsoleColor.Yellow };
     static bool collisionFlag = false;
+    static string[,] contributorsTable = { { "Aleksandra Qnovska", "aleksandra.qnovska" },
+                                         { "Boris Stoyanov", "borisstoyanovv" },
+                                         { "Vladi Vladev", "vladi.p.vladev" },
+                                         { "Denislav Videnov", "dd.videnov" },
+                                         { "Dilyan Traykov", "dilyantraykov" },
+                                         { "Dimitur Troyanov", "Fonzky" },
+                                         { "Mihail Mitov", "mihailM956" },
+                                         { "Petar Qnkov", "makof" }};
 
     static void Main()
     {
@@ -65,67 +70,28 @@ class FroggerGame
             voice.SpeakAsync("Welcome to Frogger!");
             while (true)
             {
-                PlaySound();
+                PlayBackgroundMusic();
             }
         });
         SetGameDimensions();
         InitializeMrFrog();
-        Menu();
+        DisplayMenu();
     }
-    static void PrintBorders()
-    {
-        //char[,] borders = new char[Console.WindowWidth - 1, Console.WindowHeight];
-        for (int col = 0; col < Console.WindowWidth - 1; col++)
-        {
-            for (int row = 0; row < Console.WindowHeight; row++)
-            {
-                if (row < 2)
-                {
-                    Print(row, col, '#');
-                }
-                else if (row == gameHeight - 1 || row == gameHeight)
-                {
-                    Print(row, col, '#');
-                }
-                else
-                {
-                    if (col == 0)
-                    {
-                        Print(row, 0, '#');
-                    }
-                    else if (col == 1)
-                    {
-                        Print(row, 1, '#');
-                    }
-                    else if (col == gameWidth)
-                    {
-                        Print(row, gameWidth, '#');
-                    }
-                    else if (col == gameWidth - 1)
-                    {
-                        Print(row, gameWidth - 1, '#');
-                    }
-                }
-            }
-        }
-    }
-    static void Print(int row, int col, object data)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.SetCursorPosition(col, row);
-        Console.Write(data);
-    }
+<<<<<<< HEAD
     public static void NewGame()
+=======
+
+    public static void StartNewGame()
+>>>>>>> origin/master
     {
         while (true)
         {
             Console.Clear();
             MoveEnemyCars();
             MoveAndDrawMrFrog();
-            //PrintBorders();
 
-            CreateEnemies();
-            Lives();
+            CreateEnemyCars();
+            DetectCollision();
 
             PrintingString(44, 4, "Lives left: " + mrFrogLives);
             PrintingString(44, 6, "Score: " + gameScore);
@@ -136,12 +102,19 @@ class FroggerGame
             collisionFlag = false;
         }
     }
+<<<<<<< HEAD
     static void Menu()
+=======
+
+    static void DisplayMenu()
+>>>>>>> origin/master
     {
         Console.Clear();
-        PrintingString(10, 6, "New Game", ConsoleColor.Yellow);
-        PrintingString(10, 8, "Scores");
-        PrintingString(10, 10, "Game Rules");
+        PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.Yellow);
+        PrintingString(10, 8, "Scores".ToUpper());
+        PrintingString(10, 10, "Game Rules".ToUpper());
+        PrintingString(10, 12, "Contributors".ToUpper());
+
 
         Console.CursorVisible = false;
         ConsoleKeyInfo key = Console.ReadKey();
@@ -149,15 +122,16 @@ class FroggerGame
         if (key.Key == ConsoleKey.Enter)
         {  //start game
             Console.Clear();
-            NewGame();
+            StartNewGame();
         }
         else
         {
             if (key.Key == ConsoleKey.DownArrow)
             {
-                PrintingString(10, 6, "New Game", ConsoleColor.White);
-                PrintingString(10, 8, "Scores", ConsoleColor.Yellow);
-                PrintingString(10, 10, "Game Rules", ConsoleColor.White);
+                PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
+                PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.Yellow);
+                PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.White);
+                PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.White);
                 Console.SetCursorPosition(10, 8);
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Enter)
@@ -169,38 +143,91 @@ class FroggerGame
                 {
                     if (key.Key == ConsoleKey.DownArrow)
                     {
-                        PrintingString(10, 6, "New Game", ConsoleColor.White);
-                        PrintingString(10, 8, "Scores", ConsoleColor.White);
-                        PrintingString(10, 10, "Game Rules", ConsoleColor.Yellow);
+                        PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
+                        PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.White);
+                        PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.Yellow);
+                        PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.White);
 
                         Console.WriteLine();
                         key = Console.ReadKey();
                         if (key.Key == ConsoleKey.Enter)
                         {
                             Console.Clear();
-                            Rules();
+                            DisplayRules();
                         }
                         else
                         {
-                            Console.Clear();
-                            Menu();
+                            if (key.Key == ConsoleKey.DownArrow)
+                            {
+                                PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.Yellow);
+
+                                Console.WriteLine();
+                                key = Console.ReadKey();
+                                if (key.Key == ConsoleKey.Enter)
+                                {
+                                    Console.Clear();
+                                    DisplayContributors();
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    DisplayMenu();
+                                }
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                DisplayMenu();
+                            }
                         }
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Menu();
                     }
                 }
             }
             else
             {
                 Console.Clear();
-                Menu();
+                DisplayMenu();
             }
         }
     }
-    static void Rules()
+
+    static void DisplayContributors()
+    {
+        Console.WriteLine(new string('=', 40));
+        Console.WriteLine("List of contributors: ");
+        Console.WriteLine(new string('-', 40));
+        Console.WriteLine("{0,-20} {1}", "Name", "Username");
+        Console.WriteLine(new string('=', 40));
+        for (int i = 0; i < contributorsTable.GetLength(0); i++)
+        {
+            Console.WriteLine("{0,-20} {1}", contributorsTable[i, 0], contributorsTable[i, 1]);
+            Console.WriteLine(new string('-', 40));
+        }
+        Console.WriteLine("\tPress N for new game\n\n\tPress M for Main Manu");
+        ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.N)
+        {
+            StartNewGame();
+        }
+        else
+        {
+            if (key.Key == ConsoleKey.M)
+            {
+                Console.Clear();
+                DisplayMenu();
+            }
+            else
+            {
+                Console.Clear();
+                DisplayContributors();
+            }
+        }
+    }
+
+    static void DisplayRules()
     {
         voice.SpeakAsync(@"Hey, this is Frogger. You are the little smile at the bottom of the screen.
 You should redirect the frog to his home.
@@ -221,31 +248,32 @@ You can move in all directions.
         ConsoleKeyInfo key = Console.ReadKey();
         if (key.Key == ConsoleKey.N)
         {
-            NewGame();
+            StartNewGame();
         }
         else
         {
             if (key.Key == ConsoleKey.M)
             {
                 Console.Clear();
-                Menu();
+                DisplayMenu();
             }
             else
             {
-                Rules();
+                DisplayRules();
             }
         }
     }
+
     static void LevelUp()
     {
-        if (mrFrog.y == 1)
+        if (mrFrog.y == 0)
         {
             gameSpeed -= 50;
             if (gameSpeed < 100)
             {
                 gameSpeed = 100;
             }
-            gameScore += 50;
+            gameScore += 50 * gameLevel;
             cars.Clear();
             InitializeMrFrog();
             gameLevel++;
@@ -260,7 +288,7 @@ You can move in all directions.
     static void InitializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
-        mrFrog.y = gameHeight - 2;
+        mrFrog.y = gameHeight;
         mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
@@ -274,17 +302,17 @@ You can move in all directions.
 
             if (pressedKey.Key == ConsoleKey.LeftArrow)//move Left >>>
             {
-                if (mrFrog.x > 2)//so we dont get out of the bounderies of our gameScreen
+                if (mrFrog.x > 3)//so we dont get out of the bounderies of our gameScreen
                     mrFrog.x--;
             }
             if (pressedKey.Key == ConsoleKey.RightArrow)//move Right <<<
             {
-                if (mrFrog.x < gameWidth - 2)
+                if (mrFrog.x < gameWidth - 3)
                     mrFrog.x++;
             }
             if (pressedKey.Key == ConsoleKey.UpArrow)//move Up ^^^
             {
-                if (mrFrog.y != 0)
+                if (mrFrog.y > 0)
                 {
                     mrFrog.y--;
                     gameScore++;
@@ -292,7 +320,7 @@ You can move in all directions.
             }
             if (pressedKey.Key == ConsoleKey.DownArrow)//move Down vvv
             {
-                if (mrFrog.y < gameHeight - 2)
+                if (mrFrog.y < gameHeight)
                 {
                     mrFrog.y++;
                     gameScore--;
@@ -303,13 +331,18 @@ You can move in all directions.
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
+<<<<<<< HEAD
     static void CreateEnemies()
+=======
+
+    static void CreateEnemyCars()
+>>>>>>> origin/master
     {
         Car newEnemyCar = new Car();
-        newEnemyCar.y = randomGenerator.Next(2, gameHeight - 2);
+        newEnemyCar.y = randomGenerator.Next(1, gameHeight);
         if (newEnemyCar.y % 2 == 1)
         {
-            newEnemyCar.x = 2;
+            newEnemyCar.x = 1;
             newEnemyCar.direction = 1;
         }
         else //if (newEnemyCar.y % 2 == 0)
@@ -331,7 +364,12 @@ You can move in all directions.
                 currentCar.width);
         }
     }
+<<<<<<< HEAD
     static void Lives()
+=======
+
+    static void DetectCollision()
+>>>>>>> origin/master
     {
         for (int i = 0; i < cars.Count; i++)
         {
@@ -367,7 +405,7 @@ You can move in all directions.
         {
             cars[i].MoveCar();
 
-            if (cars[i].x >= gameWidth - 5 || cars[i].x <= 1)
+            if (cars[i].x >= gameWidth - 4 || cars[i].x <= 0)
             {
                 cars.Remove(cars[i]);
                 --i;
@@ -391,9 +429,10 @@ You can move in all directions.
         Console.WindowHeight = gameHeight + 1;
         Console.BufferHeight = gameHeight + 1;
     }
+
     static void PrintScores()
     {
-        Console.WriteLine("\tTop 10 scores");
+        Console.WriteLine("\tTop 10 scores:");
 
         TextReader scoreReader = new StreamReader("../../Scores.txt");
         string line = scoreReader.ReadLine();
@@ -412,6 +451,7 @@ You can move in all directions.
             }
             line = scoreReader.ReadLine();
         }
+
         int scorePlace = 1;
         foreach (var item in scores.OrderByDescending(key => key.Value).Select(x => string.Format("{0} - {1}", x.Key, x.Value)))
         {
@@ -428,14 +468,14 @@ You can move in all directions.
         ConsoleKeyInfo pressedKey = Console.ReadKey();
         if (pressedKey.Key == ConsoleKey.N)
         {
-            NewGame();
+            StartNewGame();
         }
         else
         {
             if (pressedKey.Key == ConsoleKey.M)
             {
                 Console.Clear();
-                Menu();
+                DisplayMenu();
             }
             else
             {
@@ -458,13 +498,13 @@ You can move in all directions.
             Console.WriteLine(fileContents);
         }
 
-        Console.WriteLine("Score:" + gameScore);
+        Console.WriteLine("Thanks for playing!\nYour score is: " + gameScore);
         string playerName = string.Empty;
         while (true)
         {
             try
             {
-                Console.WriteLine("What is your name?");
+                Console.WriteLine("\nWhat is your name?");
                 playerName = Console.ReadLine();
                 if (playerName.IndexOf(' ') >= 0)
                 {
@@ -497,12 +537,12 @@ You can move in all directions.
 
         if (key.Key == ConsoleKey.Enter)
         {
-            Menu();
+            DisplayMenu();
         }
     }
-    static void PlaySound()
+
+    static void PlayBackgroundMusic()
     {
-        //Super Mario Theme Song
         Console.Beep(659, 125);
         Console.Beep(659, 125);
         Thread.Sleep(125);
