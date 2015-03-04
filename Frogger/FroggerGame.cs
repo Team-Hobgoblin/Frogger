@@ -53,6 +53,14 @@ class FroggerGame
     static List<Car> cars = new List<Car>();
     static ConsoleColor[] carColors = { ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.White, ConsoleColor.Yellow };
     static bool collisionFlag = false;
+    static string[,] contributorsTable = { { "Aleksandra Qnovska", "aleksandra.qnovska" },
+                                         { "Boris Stoyanov", "borisstoyanovv" },
+                                         { "Vladi Vladev", "vladi.p.vladev" },
+                                         { "Denislav Videnov", "dd.videnov" },
+                                         { "Dilyan Traykov", "dilyantraykov" },
+                                         { "Dimitur Troyanov", "Fonzky" },
+                                         { "Mihail Mitov", "mihailM956" },
+                                         { "Petar Qnkov", "makof" }};
 
     static void Main()
     {
@@ -97,6 +105,8 @@ class FroggerGame
         PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.Yellow);
         PrintingString(10, 8, "Scores".ToUpper());
         PrintingString(10, 10, "Game Rules".ToUpper());
+        PrintingString(10, 12, "Contributors".ToUpper());
+
 
         Console.CursorVisible = false;
         ConsoleKeyInfo key = Console.ReadKey();
@@ -113,6 +123,7 @@ class FroggerGame
                 PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
                 PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.Yellow);
                 PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.White);
+                PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.White);
                 Console.SetCursorPosition(10, 8);
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Enter)
@@ -127,6 +138,7 @@ class FroggerGame
                         PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
                         PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.White);
                         PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.Yellow);
+                        PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.White);
 
                         Console.WriteLine();
                         key = Console.ReadKey();
@@ -137,14 +149,32 @@ class FroggerGame
                         }
                         else
                         {
-                            Console.Clear();
-                            DisplayMenu();
+                            if (key.Key == ConsoleKey.DownArrow)
+                            {
+                                PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 8, "Scores".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 10, "Game Rules".ToUpper(), ConsoleColor.White);
+                                PrintingString(10, 12, "Contributors".ToUpper(), ConsoleColor.Yellow);
+
+                                Console.WriteLine();
+                                key = Console.ReadKey();
+                                if (key.Key == ConsoleKey.Enter)
+                                {
+                                    Console.Clear();
+                                    DisplayContributors();
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    DisplayMenu();
+                                }
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                DisplayMenu();
+                            }
                         }
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        DisplayMenu();
                     }
                 }
             }
@@ -152,6 +182,39 @@ class FroggerGame
             {
                 Console.Clear();
                 DisplayMenu();
+            }
+        }
+    }
+
+    static void DisplayContributors()
+    {
+        Console.WriteLine(new string('=', 40));
+        Console.WriteLine("List of contributors: ");
+        Console.WriteLine(new string('-', 40));
+        Console.WriteLine("{0,-20} {1}", "Name", "Username");
+        Console.WriteLine(new string('=', 40));
+        for (int i = 0; i < contributorsTable.GetLength(0); i++)
+        {
+            Console.WriteLine("{0,-20} {1}", contributorsTable[i, 0], contributorsTable[i, 1]);
+            Console.WriteLine(new string('-', 40));
+        }
+        Console.WriteLine("\tPress N for new game\n\n\tPress M for Main Manu");
+        ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.N)
+        {
+            StartNewGame();
+        }
+        else
+        {
+            if (key.Key == ConsoleKey.M)
+            {
+                Console.Clear();
+                DisplayMenu();
+            }
+            else
+            {
+                Console.Clear();
+                DisplayContributors();
             }
         }
     }
