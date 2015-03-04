@@ -115,7 +115,6 @@ class FroggerGame
         Console.SetCursorPosition(col, row);
         Console.Write(data);
     }
-
     public static void NewGame()
     {
         while (true)
@@ -137,7 +136,6 @@ class FroggerGame
             collisionFlag = false;
         }
     }
-
     static void Menu()
     {
         Console.Clear();
@@ -253,14 +251,12 @@ You can move in all directions.
             gameLevel++;
         }
     }
-
     static void PrintingString(int x, int y, string str, ConsoleColor color = ConsoleColor.White)
     {
         Console.SetCursorPosition(x, y);
         Console.ForegroundColor = color;
         Console.Write(str);
     }
-
     static void InitializeMrFrog()
     {
         mrFrog.x = gameWidth / 2;
@@ -268,7 +264,6 @@ You can move in all directions.
         mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
-
     static void MoveAndDrawMrFrog()
     {
         //see if we have pressed a key
@@ -308,7 +303,6 @@ You can move in all directions.
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
-
     static void CreateEnemies()
     {
         Car newEnemyCar = new Car();
@@ -337,7 +331,6 @@ You can move in all directions.
                 currentCar.width);
         }
     }
-
     static void Lives()
     {
         for (int i = 0; i < cars.Count; i++)
@@ -368,7 +361,6 @@ You can move in all directions.
             InitializeMrFrog();
         }
     }
-
     static void MoveEnemyCars()
     {
         for (int i = 0; i < cars.Count; i++)
@@ -382,7 +374,6 @@ You can move in all directions.
             }
         }
     }
-
     static void PrintAtPosition(int x, int y, char symbol, ConsoleColor color, int elementBodyWidth = 1)
     {
         Console.SetCursorPosition(x, y);
@@ -392,7 +383,6 @@ You can move in all directions.
             Console.Write(symbol);
         }
     }
-
     static void SetGameDimensions()
     {
         Console.CursorVisible = false;
@@ -454,7 +444,6 @@ You can move in all directions.
             }
         }
     }
-
     static void GameOver()
     {
         voice.SpeakAsync("Game over!");
