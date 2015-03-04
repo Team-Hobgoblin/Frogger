@@ -77,12 +77,8 @@ class FroggerGame
         InitializeMrFrog();
         DisplayMenu();
     }
-<<<<<<< HEAD
-    public static void NewGame()
-=======
 
     public static void StartNewGame()
->>>>>>> origin/master
     {
         while (true)
         {
@@ -102,12 +98,8 @@ class FroggerGame
             collisionFlag = false;
         }
     }
-<<<<<<< HEAD
-    static void Menu()
-=======
 
     static void DisplayMenu()
->>>>>>> origin/master
     {
         Console.Clear();
         PrintingString(10, 6, "New Game".ToUpper(), ConsoleColor.Yellow);
@@ -287,11 +279,12 @@ You can move in all directions.
     }
     static void InitializeMrFrog()
     {
-        mrFrog.x = gameWidth / 2;
+        mrFrog.x = randomGenerator.Next(8, gameWidth - 8);
         mrFrog.y = gameHeight;
         mrFrog.bodySymbol = (char)2;
         mrFrog.color = ConsoleColor.Green;
     }
+
     static void MoveAndDrawMrFrog()
     {
         //see if we have pressed a key
@@ -331,12 +324,8 @@ You can move in all directions.
         //draw mrFrog on the Screen
         PrintAtPosition(mrFrog.x, mrFrog.y, mrFrog.bodySymbol, mrFrog.color);
     }
-<<<<<<< HEAD
-    static void CreateEnemies()
-=======
 
     static void CreateEnemyCars()
->>>>>>> origin/master
     {
         Car newEnemyCar = new Car();
         newEnemyCar.y = randomGenerator.Next(1, gameHeight);
@@ -364,12 +353,8 @@ You can move in all directions.
                 currentCar.width);
         }
     }
-<<<<<<< HEAD
-    static void Lives()
-=======
 
     static void DetectCollision()
->>>>>>> origin/master
     {
         for (int i = 0; i < cars.Count; i++)
         {
@@ -399,6 +384,7 @@ You can move in all directions.
             InitializeMrFrog();
         }
     }
+
     static void MoveEnemyCars()
     {
         for (int i = 0; i < cars.Count; i++)
@@ -412,6 +398,7 @@ You can move in all directions.
             }
         }
     }
+
     static void PrintAtPosition(int x, int y, char symbol, ConsoleColor color, int elementBodyWidth = 1)
     {
         Console.SetCursorPosition(x, y);
@@ -421,6 +408,7 @@ You can move in all directions.
             Console.Write(symbol);
         }
     }
+
     static void SetGameDimensions()
     {
         Console.CursorVisible = false;
@@ -484,6 +472,7 @@ You can move in all directions.
             }
         }
     }
+
     static void GameOver()
     {
         voice.SpeakAsync("Game over!");
